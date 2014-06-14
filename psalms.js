@@ -16,7 +16,6 @@
 
 		_selectElement(page).fadeOut(cs.hidePage.speed, function() {
 			_transitioning = false;
-			
 			if (callback) callback();
 		});
 	}
@@ -38,7 +37,7 @@
 		// Show the page
 		_selectElement(page).fadeIn(cs.showPage.speed, function() {
 			_transitioning = false;
-
+			
 			if (callback) callback();
 		});
 	}
