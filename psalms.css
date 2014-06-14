@@ -1,0 +1,85 @@
+/**
+ * Default Element Styles
+**/
+
+body {
+	margin: 0;
+}
+
+
+/**
+ * Page Styles
+**/
+
+div.page {
+	margin: 0;
+}
+
+	div.page-header {
+		margin: 0;
+		padding: 0.6em 0;
+
+		text-align: center;
+
+		font-family: Helvetica,Arial,sans-serif;
+		font-size: 0.5em;
+
+		color: white;
+
+		/* Gradient */
+	    background-image: -webkit-gradient(
+			linear,
+			left top,
+			left bottom,
+			color-stop(0, #3C3C3C),
+			color-stop(1, #000000)
+		);
+		background-image: -o-linear-gradient(bottom, #3C3C3C 0%, #000000 100%);
+		background-image: -moz-linear-gradient(bottom, #3C3C3C 0%, #000000 100%);
+		background-image: -webkit-linear-gradient(bottom, #3C3C3C 0%, #000000 100%);
+		background-image: -ms-linear-gradient(bottom, #3C3C3C 0%, #000000 100%);
+		background-image: linear-gradient(to bottom, #3C3C3C 0%, #000000 100%);
+	}
+
+		div.page-header h1 {
+			margin: 0;
+		}
+
+
+/**
+ * Psalm Selection Page Specific Styles
+**/
+
+div#psalm-select-page {
+}
+
+	div#psalm-select-page div.psalm-number-button {
+		width: 60px;
+		padding-left: 10px;
+		float: left;
+
+		font-family: Helvetica, Arial, sans-serif;
+
+		-webkit-border-radius: 5px;
+		-moz-border-radius: 5px;
+		border-radius: 5px;
+	}
+
+		div#psalm-select-page div.psalm-number-button a {
+			margin: 4px 0px;
+			padding: 0.55em 11px 0.5em 11px;
+			display: block;
+
+			cursor: pointer;
+
+			overflow-x: hidden;
+			overflow-y: hidden;
+
+			text-align: center;
+			text-decoration: none;
+
+			color: black;
+
+
+
+		}

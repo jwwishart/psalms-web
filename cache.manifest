@@ -1,15 +1,36 @@
 CACHE MANIFEST 
-# version 82
-/u/636063/ScottishPsalterOnline/psalter.html
+# version 1
 
-https://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.css
 
-https://code.jquery.com/jquery-1.9.1.min.js
-https://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.js
-https://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.2.1/lodash.js
-https://cdnjs.cloudflare.com/ajax/libs/knockout/2.3.0/knockout-min.js
+# Page
+#
 
-/u/636063/ScottishPsalterOnline/cs.psalms.js
+//jwwishart.github.io/psalms-web/psalter.html
 
-https://code.jquery.com/mobile/1.3.2/images/ajax-loader.gif
-https://code.jquery.com/mobile/1.3.2/images/icons-18-white.png
+
+# Stylesheets
+#
+
+//code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.css
+
+
+# JavaScript 
+#
+
+//code.jquery.com/jquery-1.9.1.min.js
+//code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.js
+//cdnjs.cloudflare.com/ajax/libs/lodash.js/2.2.1/lodash.js
+//cdnjs.cloudflare.com/ajax/libs/knockout/2.3.0/knockout-min.js
+
+
+# JavaScript - Custom
+#
+
+//jwwishart.github.io/psalms-web/cs.psalms.js
+
+
+# Images
+#
+
+//code.jquery.com/mobile/1.3.2/images/ajax-loader.gif
+//code.jquery.com/mobile/1.3.2/images/icons-18-white.png
