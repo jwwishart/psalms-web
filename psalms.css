@@ -8,21 +8,94 @@ body {
 
 
 /**
+ * Helper Classes
+**/
+
+.float-left {
+	float: left;
+}
+
+.float-right {
+	float: right;
+}
+
+
+/**
+ * Custom Elements
+**/
+
+.button {
+	margin: 0;
+	padding: .6em 10px;
+	display: block;
+
+	cursor: pointer;
+
+	overflow-x: hidden;
+	overflow-y: hidden;
+
+	text-align: center;
+	text-decoration: none;
+
+	color: white;
+
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+
+	border: 1px solid #ccc;
+
+	/* Gradient */
+    background-image: -webkit-gradient(
+		linear,
+		left top,
+		left bottom,
+		color-stop(0, #3C3C3C),
+		color-stop(1, #000000)
+	);
+	background-image: -o-linear-gradient(bottom, #3C3C3C 0%, #000000 100%);
+	background-image: -moz-linear-gradient(bottom, #3C3C3C 0%, #000000 100%);
+	background-image: -webkit-linear-gradient(bottom, #3C3C3C 0%, #000000 100%);
+	background-image: -ms-linear-gradient(bottom, #3C3C3C 0%, #000000 100%);
+	background-image: linear-gradient(to bottom, #3C3C3C 0%, #000000 100%);
+}
+
+.button:hover {
+	/* Gradient */
+	background-image: -webkit-gradient(
+		linear,
+		left top,
+		left bottom,
+		color-stop(0, #787778),
+		color-stop(1, #2E2D2E)
+	);
+	background-image: -o-linear-gradient(bottom, #787778 0%, #2E2D2E 100%);
+	background-image: -moz-linear-gradient(bottom, #787778 0%, #2E2D2E 100%);
+	background-image: -webkit-linear-gradient(bottom, #787778 0%, #2E2D2E 100%);
+	background-image: -ms-linear-gradient(bottom, #787778 0%, #2E2D2E 100%);
+	background-image: linear-gradient(to bottom, #787778 0%, #2E2D2E 100%);
+}
+
+
+/**
  * Page Styles
 **/
 
 div.page {
 	margin: 0;
+
+	/* Hidden by default*/
+	display: none;
 }
 
 	div.page-header {
 		margin: 0;
-		padding: 0.6em 0;
+		padding: 0.6em 5px;
 
 		text-align: center;
 
 		font-family: Helvetica,Arial,sans-serif;
-		font-size: 0.5em;
+		font-size: 0.6em;
 
 		color: white;
 
@@ -45,12 +118,21 @@ div.page {
 			margin: 0;
 		}
 
+	div.page-content {
+		font-family: Helvetica, Arial, sans-serif;
+	}
+
 /**
  * Psalm Selection Page Specific Styles
 **/
 
 div#psalm-select-page {
 }
+
+	div#psalm-select-page .page-content {
+		padding-right: 10px;
+		padding-top: 5px;
+	}
 
 	div#psalm-select-page div.psalm-number-button {
 		width: 60px;
@@ -87,3 +169,13 @@ div#psalm-select-page {
 		}
 
 		
+
+div#psalm-content-page {
+}
+
+	div#psalm-content-page .page-header {
+	}
+
+	div#psalm-content-page .page-content {
+		padding: 15px;
+	}

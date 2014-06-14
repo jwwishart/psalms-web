@@ -5,7 +5,7 @@
     <title>Scottish Metrical Psalms</title> 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" href="//code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.css">
+    <!--<link rel="stylesheet" href="//code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.css">-->
     <link rel="stylesheet" href="psalms.css">
 
     <style type="text/css">
@@ -33,7 +33,8 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/2.2.1/lodash.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/knockout/2.3.0/knockout-min.js"></script>
 
-    <script src="cs.psalms.js"></script>
+    <script src="psalms.data.js"></script>
+    <script src="psalms.js"></script>
 
 	<!--
 		Resources:
@@ -60,11 +61,12 @@
 
 
 	<!-- Psalm Content -->
-    <div id='psalm-content-page' data-role="page">
+    <div id='psalm-content-page' class="page">
+    	<div class="page-header">
+    		<a href="javascript:void(0);" class="button float-left" data-bind="click: backToSelectPsalm">Back</a>
 
-    	<div data-role="header">
-    		<a href="#psalm-select-page" data-role="button" data-icon="arrow-l">Back</a>
-            <h1 style="text-align: left"> Psalm <span id="psalm-header-number" data-bind="text: psalmNumber"></span> </h1>
+            <h1>Psalm <span id="psalm-header-number" data-bind="text: psalmNumber"></span></h1>
+
 		    <fieldset 	id="duel-version-selector" 
 		    			data-bind="visible: showDuelVersionButtons"
 	    				data-role="controlgroup" 
@@ -80,15 +82,17 @@
 		    <a 	id="psalm119PartSelector" 
 		    	data-bind="visible: showPsalm119Button" 
 		    	href="#psalm119-part-selector" 
-		    	class="ui-btn-right" 
+		    	class="float-right" 
 		    	data-rel="dialog" 
 		    	data-transition="flip">Select Part...</a>
         </div>
  
-        <div id="psalm-contents" data-role="content" 
-        	 data-bind=" attr: { 'data-psalm-number' : psalmNumber },
-        	 			style: { fontSize: fontSize },
-        	 			 html: psalmText">
+ 		<div class='page-content'>
+	        <div id="psalm-contents" class="psalm-contents"
+	        	 data-bind=" attr: { 'data-psalm-number' : psalmNumber },
+	        	 			style: { fontSize: fontSize },
+	        	 			 html: psalmText">
+	        </div>
         </div>
     </div>
 
@@ -140,8 +144,12 @@
 		}
 
     	function determineOptimalWidth_Old(text) {
+    		var tryCounter = 0;
+
     		// Ensure We have info and Resizer in Page
-    		var currentPage = $("[data-role='page']:visible");
+    		var currentPage = $("#psalm-contents");
+    		//var psalmContents = currentPage.html("");
+
     		var desiredWidth = currentPage.width() - 25;
     		var resizer = currentPage.find(".resizer");
 			
@@ -171,6 +179,12 @@
 				  		}
 				  		break;
 				  	}
+
+				  	tryCounter += 1;
+
+				  	if (tryCounter > 1000) {
+				  		break;
+				  	}
 				}
 			} else {
 				// Too big, shrink
@@ -183,6 +197,12 @@
 				  		if(console && console.error) {
 				  			console.error("cannot determine correct size of font required");
 				  		}
+				  		break;
+				  	}
+
+				  	tryCounter += 1;
+
+				  	if (tryCounter > 1000) {
 				  		break;
 				  	}
 				}
@@ -212,23 +232,30 @@
 	    		this.showDuelVersionButtons = ko.observable(false);
 	    		this.showPsalm119Button = ko.observable(false);
 
+	    		this.currentWidth = ko.observable($(window).width());
+
 	    		this.selectPsalm = function() {
 	    			var number = this;
 
 	    			vm.psalmNumber(number);
 	    			vm.psalmVersion(1);
 
-	    			// We have to trigger the bind after the 
-					// main page loads or we get infinite loops
-					// in the width calculation routine....
-					$(document).one('pageshow', function() {
+					cs.showPage("psalm-content-page", function() {
 						vm.bindPsalmData();
 					});
-
-					$.mobile.navigate("#psalm-content-page");
 	    		},
 
+	    		this.backToSelectPsalm = function() {
+	    			$(window).off("resize", this.calculateFontSizeOnResize);
+
+	    			cs.showPage("psalm-select-page");
+	    		}
+
 	    		this.bindPsalmData = function() {
+	    			vm.psalmText(" ");
+
+	    			$(window).off("resize", this.calculateFontSizeOnResize);
+
 	    			// Get Specific Version
 					var text =  cs.psalm.getPsalmText(
 						vm.psalmNumber(), 
@@ -240,13 +267,13 @@
 					var size = determineOptimalWidth(text);
 
 					// Version Buttons
-					vm.showPsalm119Button(false);
-					vm.showDuelVersionButtons(false);
+					// vm.showPsalm119Button(false);
+					// vm.showDuelVersionButtons(false);
 
-	    			if (versions === 2) {	    				
-	    				vm.showDuelVersionButtons(true);
+	    			//if (versions === 2) {	    				
+	    			//	vm.showDuelVersionButtons(true);
 
-						$("[type=radio]").checkboxradio('refresh')
+					//	$("[type=radio]").checkboxradio('refresh')
 
 						//var radioButtons = $("#duel-version-selector [type=radio]");
 						//if (radioButtons.data("mobileCheckboxradio") != null) {
@@ -255,16 +282,16 @@
 
 						//$("#duel-version-selector").find("input[type='radio']").prop("checked",false).checkboxradio("refresh");
 	    				//$("#duel-version-selector").find("input[type='radio']:first").prop("checked",true).checkboxradio("refresh");
-	    			} else if (versions === 22) {
-						vm.showPsalm119Button(true);
-	    			}
+	    			//} else if (versions === 22) {
+					//	vm.showPsalm119Button(true);
+	    			//}
 
 					// Bind Text and font size
-					vm.psalmText(text);
 					vm.textSize(size);
+					vm.psalmText(text);
 					//vm.psalmVersion(vm.psalmVersion());
 
-					
+					$(window).on("resize", this.calculateFontSizeOnResize);
 	    		}
 
 	    		this.currentSelectedVersion = ko.computed(function() {
@@ -303,7 +330,18 @@
 					vm.psalmVersion(version);
 
 					return false;
-	    		}
+	    		},
+
+	    		this.calculateFontSizeOnResize = _.debounce(function() {
+	    			var contentElement = $("#psalm-contents");
+
+	    			if (contentElement.is(":visible") && $(window).width() !== vm.currentWidth()) {
+	    				// vm.currentWidth($(window).width());
+	    				// var newSize = determineOptimalWidth(contentElement.html());	
+	    				// contentElement.css('font-size', newSize);
+	    				vm.bindPsalmData();
+	    			}
+	    		}, 400);
 	    	};
 
 	    	var myViewModel = new ViewModel();
@@ -333,10 +371,6 @@
     				contentElement.css('font-size', newSize);
     			}
     		}; 
-
-    		var fontSizeOnResize = _.debounce(calculateFontSizeOnResize, 100);
-
-    		$(window).resize(fontSizeOnResize);
 
     		//
     		//$(document).on( "swipeleft", "#psalms-contents", function() {
@@ -374,6 +408,17 @@
 
 		}, false);
 
+
+
+
+
+
+
+
+
+
+		// Show the first page
+		cs.showPage("#psalm-select-page");
     </script>
 </body>
 </html>
