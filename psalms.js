@@ -34,10 +34,14 @@
 		// Hide pages that are showing
 		$(".page:visible").hide();
 
+		window.scrollTo(0, 0);
+
 		// Show the page
 		_selectElement(page).fadeIn(cs.showPage.speed, function() {
 			_transitioning = false;
 			
+			//window.location.hash = page;
+
 			if (callback) callback();
 		});
 	}
@@ -69,9 +73,9 @@
 	//
 
 	window.cs.hidePage = hidePage;
-	window.cs.hidePage.speed = 700;
+	window.cs.hidePage.speed = 400;
 
 	window.cs.showPage = showPage;
-	window.cs.showPage.speed = 700;
+	window.cs.showPage.speed = 400;
 
 }(jQuery));

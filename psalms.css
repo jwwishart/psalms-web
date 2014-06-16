@@ -24,7 +24,7 @@ body {
  * Custom Elements
 **/
 
-.button {
+.button.dark {
 	margin: 0;
 	padding: .6em 10px;
 	display: block;
@@ -60,21 +60,54 @@ body {
 	background-image: linear-gradient(to bottom, #3C3C3C 0%, #000000 100%);
 }
 
-.button:hover {
-	/* Gradient */
-	background-image: -webkit-gradient(
-		linear,
-		left top,
-		left bottom,
-		color-stop(0, #787778),
-		color-stop(1, #2E2D2E)
-	);
-	background-image: -o-linear-gradient(bottom, #787778 0%, #2E2D2E 100%);
-	background-image: -moz-linear-gradient(bottom, #787778 0%, #2E2D2E 100%);
-	background-image: -webkit-linear-gradient(bottom, #787778 0%, #2E2D2E 100%);
-	background-image: -ms-linear-gradient(bottom, #787778 0%, #2E2D2E 100%);
-	background-image: linear-gradient(to bottom, #787778 0%, #2E2D2E 100%);
+	.button.dark:hover {
+		/* Gradient */
+		background-image: -webkit-gradient(
+			linear,
+			left top,
+			left bottom,
+			color-stop(0, #787778),
+			color-stop(1, #2E2D2E)
+		);
+		background-image: -o-linear-gradient(bottom, #787778 0%, #2E2D2E 100%);
+		background-image: -moz-linear-gradient(bottom, #787778 0%, #2E2D2E 100%);
+		background-image: -webkit-linear-gradient(bottom, #787778 0%, #2E2D2E 100%);
+		background-image: -ms-linear-gradient(bottom, #787778 0%, #2E2D2E 100%);
+		background-image: linear-gradient(to bottom, #787778 0%, #2E2D2E 100%);
+	}
+
+.button.light {
+	margin: 0;
+	padding: .6em 10px;
+	display: block;
+
+	cursor: pointer;
+
+	overflow-x: hidden;
+	overflow-y: hidden;
+
+	text-align: center;
+	text-decoration: none;
+
+	color: black;
+
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+
+	border: 1px solid #ccc;
 }
+
+	.button.light:hover {
+		background-color: #eee;
+	}
+
+
+.inline {
+	display: inline;
+}
+
+
 
 
 /**
@@ -92,7 +125,7 @@ div.page {
 		margin: 0;
 		padding: 0.6em 5px;
 
-		text-align: center;
+		text-align: left;
 
 		font-family: Helvetica,Arial,sans-serif;
 		font-size: 0.6em;
@@ -116,6 +149,7 @@ div.page {
 
 		div.page-header h1 {
 			margin: 0;
+			text-align: center;
 		}
 
 	div.page-content {
@@ -176,6 +210,48 @@ div#psalm-content-page {
 	div#psalm-content-page .page-header {
 	}
 
+		#psalm-number-header {
+			margin: 0;
+			text-align: left;
+			margin-left: 50px;
+		}
+
 	div#psalm-content-page .page-content {
 		padding: 15px;
 	}
+
+	div#psalm-content-page .page-header a.button.float-right {
+		margin-left: 5px;
+	}
+
+	div#psalm-content-page .page-header .button-selected {
+		color: gold;
+		font-weight: bold;;
+	}
+
+.hide-text {
+	color: white;
+}
+
+
+div#psalm119-part-selector {
+
+}
+	ul#psalm119PartList {
+		list-style-type: none;
+		padding: 0;
+	}
+
+	ul#psalm119PartList li {
+		margin: 3px 1em;
+	}
+
+	ul#psalm119PartList li span {
+		display: inline-block;
+		margin: 0;
+		padding: 0;
+		width: 49%;
+		text-align: center;
+	}
+
+

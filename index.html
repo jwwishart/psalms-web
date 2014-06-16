@@ -32,6 +32,8 @@
     <!-- <script src="//code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.js"></script>-->
     <script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/2.2.1/lodash.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/knockout/2.3.0/knockout-min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/js-signals/1.0.0/js-signals.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/crossroads/0.12.0/crossroads.min.js"></script>
 
     <script src="psalms.data.js"></script>
     <script src="psalms.js"></script>
@@ -53,7 +55,8 @@
         <div class="page-content" data-bind="foreach: numbers">
         	<div class="psalm-number-button">	
 				<a data-bind="click: $parent.selectPsalm" href="javascript:void(0);">
-					<span data-bind="text: $data"></span>
+					<span data-bind="text: $data.number"></span>
+					<span data-bind="visible: $data.partCount > 1" style="display: block;position: relative; width: 100%; height: 100%; clear: both"><span style="display: block; font-size: 0.7em; position: absolute; bottom: 0; right: 0;margin: -10px -7px ;padding:  0;" data-bind="text: $data.partCount"></span></span>
 				</a>
 			</div>
         </div>
@@ -63,31 +66,17 @@
 	<!-- Psalm Content -->
     <div id='psalm-content-page' class="page">
     	<div class="page-header">
-    		<a href="javascript:void(0);" class="button float-left" data-bind="click: backToSelectPsalm">Back</a>
+    		<a href="javascript:void(0);" class="button dark inline float-left" data-bind="click: backToSelectPsalm">Back</a>
 
-            <h1>Psalm <span id="psalm-header-number" data-bind="text: psalmNumber"></span></h1>
+			<a href="javascript:void(0);" class="button dark inline float-right" data-bind="css: { 'button-selected': psalmVersion() === 2 }, visible: showDuelVersionButtons, click: selectVersion2">Ver. 2</a>
+			<a href="javascript:void(0);" class="button dark inline float-right" data-bind="css: { 'button-selected': psalmVersion() === 1 }, visible: showDuelVersionButtons, click: selectVersion1">Ver. 1</a>
 
-		    <fieldset 	id="duel-version-selector" 
-		    			data-bind="visible: showDuelVersionButtons"
-	    				data-role="controlgroup" 
-	    				data-type="horizontal" 
-	    				class="ui-btn-right">
-	         	<input data-bind="click: selectVersion1, checked: currentSelectedVersion" data-mini="true" type="radio" name="radio-choice-2" id="version1" value="choice-1" />
-	         	<label for="version1">Ver. 1</label>
+			<a data-bind="visible: showPsalm119Button, click: viewPsalm119Selector" class="button dark inline float-right">Select Part...</a>
 
-	         	<input data-bind="click: selectVersion2, checked: currentSelectedVersion" data-mini="true" type="radio" name="radio-choice-2" id="version2" value="choice-2" />
-	         	<label for="version2">Ver. 2</label>
-		    </fieldset> 
-
-		    <a 	id="psalm119PartSelector" 
-		    	data-bind="visible: showPsalm119Button" 
-		    	href="#psalm119-part-selector" 
-		    	class="float-right" 
-		    	data-rel="dialog" 
-		    	data-transition="flip">Select Part...</a>
+			<h1 id="psalm-number-header">Psalm <span data-bind="text: psalmNumber"></span></h1>
         </div>
  
- 		<div class='page-content'>
+ 		<div class='page-content' data-bind="css: { 'hide-text': hideText() }">
 	        <div id="psalm-contents" class="psalm-contents"
 	        	 data-bind=" attr: { 'data-psalm-number' : psalmNumber },
 	        	 			style: { fontSize: fontSize },
@@ -97,34 +86,34 @@
     </div>
 
 	<!-- Psalm 119 Version Selector -->
-    <div id="psalm119-part-selector" data-role="page">
-		<div data-role="header">
-			<h2>Select Psalms 119 Part</h2>
+    <div id="psalm119-part-selector" class="page">
+		<div class="page-header">
+			<h1>Select Psalms 119 Part</h1>
 		</div>
-		<div data-role="content">
-			<ul id="psalm119PartList" data-role="listview">
-				<li data-bind="click: selectPsalm119Part" data-part-no="1">Part 1 - Verses 1-8</li>
-				<li data-bind="click: selectPsalm119Part" data-part-no="2">Part 2 - Verses 9-16</li>
-				<li data-bind="click: selectPsalm119Part" data-part-no="3">Part 3 - Verses 17-24</li>
-				<li data-bind="click: selectPsalm119Part" data-part-no="4">Part 4 - Verses 25-32</li>
-				<li data-bind="click: selectPsalm119Part" data-part-no="5">Part 5 - Verses 33-40</li>
-				<li data-bind="click: selectPsalm119Part" data-part-no="6">Part 6 - Verses 41-48</li>
-				<li data-bind="click: selectPsalm119Part" data-part-no="7">Part 7 - Verses 49-56</li>
-				<li data-bind="click: selectPsalm119Part" data-part-no="8">Part 8 - Verses 57-64</li>
-				<li data-bind="click: selectPsalm119Part" data-part-no="9">Part 9 - Verses 65-72</li>
-				<li data-bind="click: selectPsalm119Part" data-part-no="10">Part 10 - Verses 73-80</li>
-				<li data-bind="click: selectPsalm119Part" data-part-no="11">Part 11 - Verses 81-88</li>
-				<li data-bind="click: selectPsalm119Part" data-part-no="12">Part 12 - Verses 89-96</li>
-				<li data-bind="click: selectPsalm119Part" data-part-no="13">Part 13 - Verses 97-104</li>
-				<li data-bind="click: selectPsalm119Part" data-part-no="14">Part 14 - Verses 105-112</li>
-				<li data-bind="click: selectPsalm119Part" data-part-no="15">Part 15 - Verses 113-120</li>
-				<li data-bind="click: selectPsalm119Part" data-part-no="16">Part 16 - Verses 121-128</li>
-				<li data-bind="click: selectPsalm119Part" data-part-no="17">Part 17 - Verses 129-136</li>
-				<li data-bind="click: selectPsalm119Part" data-part-no="18">Part 18 - Verses 137-144</li>
-				<li data-bind="click: selectPsalm119Part" data-part-no="19">Part 19 - Verses 145-152</li>
-				<li data-bind="click: selectPsalm119Part" data-part-no="20">Part 20 - Verses 153-160</li>
-				<li data-bind="click: selectPsalm119Part" data-part-no="21">Part 21 - Verses 161-168</li>
-				<li data-bind="click: selectPsalm119Part" data-part-no="22">Part 22 - Verses 169-176</li>
+		<div class="page-content">
+			<ul id="psalm119PartList">
+				<li class="button light" data-bind="click: selectPsalm119Part" data-part-no="1"><span>Part 1</span> <span>Verses 1-8</span></li>
+				<li class="button light" data-bind="click: selectPsalm119Part" data-part-no="2"><span>Part 2</span> <span>Verses 9-16</span></li>
+				<li class="button light" data-bind="click: selectPsalm119Part" data-part-no="3"><span>Part 3</span> <span>Verses 17-24</span></li>
+				<li class="button light" data-bind="click: selectPsalm119Part" data-part-no="4"><span>Part 4</span> <span>Verses 25-32</span></li>
+				<li class="button light" data-bind="click: selectPsalm119Part" data-part-no="5"><span>Part 5</span> <span>Verses 33-40</span></li>
+				<li class="button light" data-bind="click: selectPsalm119Part" data-part-no="6"><span>Part 6</span> <span>Verses 41-48</span></li>
+				<li class="button light" data-bind="click: selectPsalm119Part" data-part-no="7"><span>Part 7</span> <span>Verses 49-56</span></li>
+				<li class="button light" data-bind="click: selectPsalm119Part" data-part-no="8"><span>Part 8</span> <span>Verses 57-64</span></li>
+				<li class="button light" data-bind="click: selectPsalm119Part" data-part-no="9"><span>Part 9</span> <span>Verses 65-72</span></li>
+				<li class="button light" data-bind="click: selectPsalm119Part" data-part-no="10"><span>Part 10</span> <span>Verses 73-80</span></li>
+				<li class="button light" data-bind="click: selectPsalm119Part" data-part-no="11"><span>Part 11</span> <span>Verses 81-88</span></li>
+				<li class="button light" data-bind="click: selectPsalm119Part" data-part-no="12"><span>Part 12</span> <span>Verses 89-96</span></li>
+				<li class="button light" data-bind="click: selectPsalm119Part" data-part-no="13"><span>Part 13</span> <span>Verses 97-104</span></li>
+				<li class="button light" data-bind="click: selectPsalm119Part" data-part-no="14"><span>Part 14</span> <span>Verses 105-112</span></li>
+				<li class="button light" data-bind="click: selectPsalm119Part" data-part-no="15"><span>Part 15</span> <span>Verses 113-120</span></li>
+				<li class="button light" data-bind="click: selectPsalm119Part" data-part-no="16"><span>Part 16</span> <span>Verses 121-128</span></li>
+				<li class="button light" data-bind="click: selectPsalm119Part" data-part-no="17"><span>Part 17</span> <span>Verses 129-136</span></li>
+				<li class="button light" data-bind="click: selectPsalm119Part" data-part-no="18"><span>Part 18</span> <span>Verses 137-144</span></li>
+				<li class="button light" data-bind="click: selectPsalm119Part" data-part-no="19"><span>Part 19</span> <span>Verses 145-152</span></li>
+				<li class="button light" data-bind="click: selectPsalm119Part" data-part-no="20"><span>Part 20</span> <span>Verses 153-160</span></li>
+				<li class="button light" data-bind="click: selectPsalm119Part" data-part-no="21"><span>Part 21</span> <span>Verses 161-168</span></li>
+				<li class="button light" data-bind="click: selectPsalm119Part" data-part-no="22"><span>Part 22</span> <span>Verses 169-176</span></li>
 			</ul>	
 		</div>
     </div>
@@ -219,10 +208,20 @@
 	    	var ViewModel = function() {
 	    		var vm = this;
 
-	    		this.psalmNumbers = this.numbers = ko.observableArray(_.range(1,151));
+	    		this.psalmNumbers = this.numbers = ko.observableArray(_.map(_.range(1,151), function(i) {
+	    			var partsCount = cs.psalm.psalmVersions(i);
+
+	    			return {
+	    				number: i,
+	    				partCount: partsCount
+	    			};
+	    		}));
+
 	    		this.psalmNumber = ko.observable();
 	    		this.psalmVersion = ko.observable(1);
 	    		this.psalmText = ko.observable();
+
+	    		this.hideText = ko.observable(true);
 
 	    		this.textSize = ko.observable(5);
 	    		this.fontSize = ko.computed(function() {
@@ -235,13 +234,22 @@
 	    		this.currentWidth = ko.observable($(window).width());
 
 	    		this.selectPsalm = function() {
-	    			var number = this;
+	    			var number = this.number;
+
+	    			if (number === 119) {
+	    				cs.showPage("psalm119-part-selector");
+	    				return;
+	    			}
 
 	    			vm.psalmNumber(number);
 	    			vm.psalmVersion(1);
 
+	    			vm.hideText(true);
+
 					cs.showPage("psalm-content-page", function() {
 						vm.bindPsalmData();
+
+						vm.hideText(false);
 					});
 	    		},
 
@@ -267,24 +275,14 @@
 					var size = determineOptimalWidth(text);
 
 					// Version Buttons
-					// vm.showPsalm119Button(false);
-					// vm.showDuelVersionButtons(false);
+					vm.showPsalm119Button(false);
+					vm.showDuelVersionButtons(false);
 
-	    			//if (versions === 2) {	    				
-	    			//	vm.showDuelVersionButtons(true);
-
-					//	$("[type=radio]").checkboxradio('refresh')
-
-						//var radioButtons = $("#duel-version-selector [type=radio]");
-						//if (radioButtons.data("mobileCheckboxradio") != null) {
-					//		radioButtons.checkboxradio("refresh");
-					//	}
-
-						//$("#duel-version-selector").find("input[type='radio']").prop("checked",false).checkboxradio("refresh");
-	    				//$("#duel-version-selector").find("input[type='radio']:first").prop("checked",true).checkboxradio("refresh");
-	    			//} else if (versions === 22) {
-					//	vm.showPsalm119Button(true);
-	    			//}
+	    			if (versions === 2) {	    				
+	    				vm.showDuelVersionButtons(true);
+	    			} else if (versions === 22) {
+						vm.showPsalm119Button(true);
+	    			}
 
 					// Bind Text and font size
 					vm.textSize(size);
@@ -315,19 +313,29 @@
 	    			return false;
 	    		}
 
+	    		this.viewPsalm119Selector = function() {
+	    			cs.showPage("psalm119-part-selector");
+	    		}
+
 	    		this.selectPsalm119Part = function(vm, event) {
-					var version = parseInt($(event.target).attr('data-part-no'), 10);
+	    			var li = $(event.target);
 
-					// We have to trigger the bind after the 
-					// main page loads or we get infinite loops
-					// in the width calculation routine....
-					$(document).one('pageshow', function() {
-						vm.bindPsalmData();
-					});
+	    			if (li.is("li") === false) {
+	    				li = li.closest("li");
+	    			}
 
-					$( "#psalm119-part-selector").dialog( "close" );
+					var version = parseInt(li.attr('data-part-no'), 10);
 
+					vm.psalmNumber(119);
 					vm.psalmVersion(version);
+
+					vm.hideText(true);		
+
+					cs.showPage("psalm-content-page", function() {
+						vm.bindPsalmData();
+
+						vm.hideText(false);
+					});
 
 					return false;
 	    		},
@@ -407,16 +415,6 @@
 		  }, false);
 
 		}, false);
-
-
-
-//TODO: 
-//Use this for versionsn.
-//<span style="display: block;position: relative; width: 100%; height: 100%; clear: both"><span style="display: block; font-size: 0.7em; position: absolute; bottom: 0; right: 0;margin: -10px -7px ;padding:  0;">2</span></span>
-
-
-
-
 
 		// Show the first page
 		cs.showPage("#psalm-select-page");
