@@ -1,7 +1,7 @@
 
 (function($) {
 	function getPsalm(number, version) {
-		return window.cs.psalm._data[number - 1][version - 1];
+		return _data[number - 1][version - 1];
 	}
 
 	function getPsalmText(number, version, format) {
@@ -19,8 +19,23 @@
 			number = parseInt(number, 10);
 		}
 
-		var versions = window.cs.psalm._data[number - 1];
+		var versions = _data[number - 1];
 		return versions.length;
+	}
+
+	function search(term) {
+		var index = 0,
+			results = [];
+
+		if ($.type(term) === 'string') {
+			for(index in _data) {
+				if (_data[index].text.indexOf(term) != -1) {
+					results = _data[index];
+				}
+			}
+		}
+
+		return results;
 	}
 
 
@@ -38,7 +53,7 @@
 	// DATA
 	//
 
-	window.cs.psalm._data = [
+	var _data = [
 	  [
 	    { number: 1, version: 1, text: "1    That man hath perfect blessedness,<br>          who walketh not astray<br>     In counsel of ungodly men,<br>          nor stands in sinners' way,<br><br>     Nor sitteth in the scorner's chair:<br>2          But placeth his delight<br>     Upon God's law, and meditates<br>          on his law day and night.<br><br>3    He shall be like a tree that grows<br>          near planted by a river,<br>     Which in his season yields his fruit,<br>          and his leaf fadeth never:<br><br>     And all he doth shall prosper well<br>4        The wicked are not so;<br>     But like they are unto the chaff,<br>          which wind drives to and fro.<br><br>5    In judgment therefore shall not stand<br>          such as ungodly are;<br>     Nor in th' assembly of the just<br>          shall wicked men appear.<br><br>6    For why? the way of godly men<br>          unto the Lord is known:<br>     Whereas the way of wicked men<br>          shall quite be overthrown." }
 	  ], [

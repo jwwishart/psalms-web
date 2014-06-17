@@ -2,47 +2,14 @@
 <!-- <html manifest="cache.manifest"> -->
 <html>
 <head>
+    
     <title>Scottish Metrical Psalms</title> 
+    
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!--<link rel="stylesheet" href="//code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.css">-->
+    <!-- Style -->
     <link rel="stylesheet" href="psalms.css">
 
-    <style type="text/css">
-    /*
-    	DEBUG
-    */
-
-    div[data-role=page] {
-    	display: none;
-    }
-
-
-
-    	.ui-btn {
-    		padding: 0;
-    		margin-top: 4px;
-    	}
-		.ui-btn-inner {
-			padding: .4em 10px;
-		}
-    </style>
-    
-    <script src="//code.jquery.com/jquery-1.9.1.min.js"></script>
-    <!-- <script src="//code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.js"></script>-->
-    <script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/2.2.1/lodash.js"></script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/knockout/2.3.0/knockout-min.js"></script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/js-signals/1.0.0/js-signals.min.js"></script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/crossroads/0.12.0/crossroads.min.js"></script>
-
-    <script src="psalms.data.js"></script>
-    <script src="psalms.js"></script>
-
-	<!--
-		Resources:
-			http://stackoverflow.com/questions/4165836/javascript-scale-text-to-fit-in-fixed-div
-			http://stackoverflow.com/questions/5849173/multiple-buttons-on-right-hand-side-of-header
-	-->
 </head>
 <body>
 
@@ -52,7 +19,7 @@
             <h1>Psalm Selection</h1>
         </div>
  
-        <div class="page-content" data-bind="foreach: numbers">
+        <div class="page-content" data-bind="foreach: psalmNumbers">
         	<div class="psalm-number-button">	
 				<a data-bind="click: $parent.selectPsalm" href="javascript:void(0);">
 					<span data-bind="text: $data.number"></span>
@@ -76,7 +43,7 @@
 			<h1 id="psalm-number-header">Psalm <span data-bind="text: psalmNumber"></span></h1>
         </div>
  
- 		<div class='page-content' data-bind="css: { 'hide-text': hideText() }">
+ 		<div class='page-content' data-bind="css: { 'hide-text': showText() === false }">
 	        <div id="psalm-contents" class="psalm-contents"
 	        	 data-bind=" attr: { 'data-psalm-number' : psalmNumber },
 	        	 			style: { fontSize: fontSize },
@@ -88,6 +55,7 @@
 	<!-- Psalm 119 Version Selector -->
     <div id="psalm119-part-selector" class="page">
 		<div class="page-header">
+			<a href="javascript:void(0);" class="button dark inline float-left" data-bind="click: backToSelectPsalm">Back</a>
 			<h1>Select Psalms 119 Part</h1>
 		</div>
 		<div class="page-content">
@@ -119,286 +87,21 @@
     </div>
 
 
-	<!-- Page Script -->
+    <!-- Script -->
+    <script src="//code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/2.2.1/lodash.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/knockout/2.3.0/knockout-min.js"></script>
+	<!--<script src="//cdnjs.cloudflare.com/ajax/libs/js-signals/1.0.0/js-signals.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/crossroads/0.12.0/crossroads.min.js"></script>-->
+
+	<script>
+		window.DEBUG = true;
+	</script>
+
+    <script src="psalms.data.js"></script>
+    <script src="psalms.js"></script>
+
     <script>
-
-    	
-
-		function determineOptimalWidth(text) {
-			return determineOptimalWidth_Old(text);
-		}
-
-		function determineOptimalWidth_New(text) {
-
-		}
-
-    	function determineOptimalWidth_Old(text) {
-    		var tryCounter = 0;
-
-    		// Ensure We have info and Resizer in Page
-    		var currentPage = $("#psalm-contents");
-    		//var psalmContents = currentPage.html("");
-
-    		var desiredWidth = currentPage.width() - 25;
-    		var resizer = currentPage.find(".resizer");
-			
-			if (resizer.length === 0) {
-				currentPage.append('<span class="resizer" style="visibility: hidden"></span>')
-				resizer = currentPage.find(".resizer");
-			}
-
-			// Setup Resizer for Calculation
-			resizer.html('');
-			resizer.css('font-size', '5');
-			resizer.html(text);
-
-			var size = 5;
-			var tooSmall = (resizer.width() > desiredWidth) === false;
-
-			if (tooSmall) {
-				// Too small, enlarge
-				while(resizer.width() < desiredWidth) {
-					size = parseInt(resizer.css("font-size"), 10);
-					size += 1;
-				  	resizer.css("font-size", size);
-
-				  	if(size > 200) {
-				  		if(console && console.error) {
-				  			console.error("cannot determine correct size of font required");
-				  		}
-				  		break;
-				  	}
-
-				  	tryCounter += 1;
-
-				  	if (tryCounter > 1000) {
-				  		break;
-				  	}
-				}
-			} else {
-				// Too big, shrink
-				while(resizer.width() > desiredWidth) {
-				  	size = parseInt(resizer.css("font-size"), 10);
-				  	size -= 1;
-				  	resizer.css("font-size", size);
-
-				  	if(size > 200) {
-				  		if(console && console.error) {
-				  			console.error("cannot determine correct size of font required");
-				  		}
-				  		break;
-				  	}
-
-				  	tryCounter += 1;
-
-				  	if (tryCounter > 1000) {
-				  		break;
-				  	}
-				}
-			}
-
-			size -= 2;
-
-			resizer.html('');
-
-			return size;
-    	}
-
-
-	    	var ViewModel = function() {
-	    		var vm = this;
-
-	    		this.psalmNumbers = this.numbers = ko.observableArray(_.map(_.range(1,151), function(i) {
-	    			var partsCount = cs.psalm.psalmVersions(i);
-
-	    			return {
-	    				number: i,
-	    				partCount: partsCount
-	    			};
-	    		}));
-
-	    		this.psalmNumber = ko.observable();
-	    		this.psalmVersion = ko.observable(1);
-	    		this.psalmText = ko.observable();
-
-	    		this.hideText = ko.observable(true);
-
-	    		this.textSize = ko.observable(5);
-	    		this.fontSize = ko.computed(function() {
-	    			return vm.textSize() + 'px';
-	    		});
-
-	    		this.showDuelVersionButtons = ko.observable(false);
-	    		this.showPsalm119Button = ko.observable(false);
-
-	    		this.currentWidth = ko.observable($(window).width());
-
-	    		this.selectPsalm = function() {
-	    			var number = this.number;
-
-	    			if (number === 119) {
-	    				cs.showPage("psalm119-part-selector");
-	    				return;
-	    			}
-
-	    			vm.psalmNumber(number);
-	    			vm.psalmVersion(1);
-
-	    			vm.hideText(true);
-
-					cs.showPage("psalm-content-page", function() {
-						vm.bindPsalmData();
-
-						vm.hideText(false);
-					});
-	    		},
-
-	    		this.backToSelectPsalm = function() {
-	    			$(window).off("resize", this.calculateFontSizeOnResize);
-
-	    			cs.showPage("psalm-select-page");
-	    		}
-
-	    		this.bindPsalmData = function() {
-	    			vm.psalmText(" ");
-
-	    			$(window).off("resize", this.calculateFontSizeOnResize);
-
-	    			// Get Specific Version
-					var text =  cs.psalm.getPsalmText(
-						vm.psalmNumber(), 
-						vm.psalmVersion(), 
-						true /* format */
-					);
-
-					var versions = cs.psalm.psalmVersions(vm.psalmNumber());
-					var size = determineOptimalWidth(text);
-
-					// Version Buttons
-					vm.showPsalm119Button(false);
-					vm.showDuelVersionButtons(false);
-
-	    			if (versions === 2) {	    				
-	    				vm.showDuelVersionButtons(true);
-	    			} else if (versions === 22) {
-						vm.showPsalm119Button(true);
-	    			}
-
-					// Bind Text and font size
-					vm.textSize(size);
-					vm.psalmText(text);
-					//vm.psalmVersion(vm.psalmVersion());
-
-					$(window).on("resize", this.calculateFontSizeOnResize);
-	    		}
-
-	    		this.currentSelectedVersion = ko.computed(function() {
-	    			// Will just ignore that we might not be on a psalm
-	    			// with multiple versions or on psalm 119 as 
-	    			// that stuff won't be visible anyway!
-	    			return 'choice-' + this.psalmVersion();
-	    		}, this);
-
-	    		this.selectVersion1 = function() {
-	    			vm.psalmVersion(1);
-	    			vm.bindPsalmData();
-
-	    			return false;
-	    		}
-
-	    		this.selectVersion2 = function() {
-	    			vm.psalmVersion(2);
-	    			vm.bindPsalmData();
-
-	    			return false;
-	    		}
-
-	    		this.viewPsalm119Selector = function() {
-	    			cs.showPage("psalm119-part-selector");
-	    		}
-
-	    		this.selectPsalm119Part = function(vm, event) {
-	    			var li = $(event.target);
-
-	    			if (li.is("li") === false) {
-	    				li = li.closest("li");
-	    			}
-
-					var version = parseInt(li.attr('data-part-no'), 10);
-
-					vm.psalmNumber(119);
-					vm.psalmVersion(version);
-
-					vm.hideText(true);		
-
-					cs.showPage("psalm-content-page", function() {
-						vm.bindPsalmData();
-
-						vm.hideText(false);
-					});
-
-					return false;
-	    		},
-
-	    		this.calculateFontSizeOnResize = _.debounce(function() {
-	    			var contentElement = $("#psalm-contents");
-
-	    			if (contentElement.is(":visible") && $(window).width() !== vm.currentWidth()) {
-	    				// vm.currentWidth($(window).width());
-	    				// var newSize = determineOptimalWidth(contentElement.html());	
-	    				// contentElement.css('font-size', newSize);
-	    				vm.bindPsalmData();
-	    			}
-	    		}, 400);
-	    	};
-
-	    	var myViewModel = new ViewModel();
-	    	ko.applyBindings(myViewModel);
-
-
-    	$(function() {
-    		// Psalm Selector Buttons
-    		//generatePsalmButtons();
-    		
-	    	// Psalm Numbers
-	    	var psalmNumbersContainer = $("#psalm-numbers");
-
-	    	// Content Area
-	    	var psalmContentContainer = $("#psalm-contents"),
-	    		psalmHeaderNumber = $("#psalm-header-number");
-
-    		var currentWidth = $(window).width();
-
-    		// On Resize of the viewport figure out 
-    		// the new font-size...
-    		function calculateFontSizeOnResize() {
-				var contentElement = psalmContentContainer;
-    			if (contentElement.is(":visible") && $(window).width() !== currentWidth) {
-    				currentWidth = $(window).width();
-    				var newSize = determineOptimalWidth(contentElement.html());	
-    				contentElement.css('font-size', newSize);
-    			}
-    		}; 
-
-    		//
-    		//$(document).on( "swipeleft", "#psalms-contents", function() {
-    		//	var currentNo = myViewModel.psalmNumber();
-    		//	if (currentNo > 1) {
-			//		myViewModel.psalmNumber(--currentNo);
-			//		myViewModel.psalmVersion(1);
-			//		myViewModel.bindPsalmData();
-    		//	}
-    		//});
-//
-    		//$(document).on( "swiperight", "#psalms-contents", function() {
-    		//	var currentNo = myViewModel.psalmNumber();
-    		//	if (currentNo < 150) {
-			//		myViewModel.psalmNumber(++currentNo);
-			//		myViewModel.psalmVersion(1);
-			//		myViewModel.bindPsalmData();
-    		//	}
-    		//});
-    	});
 
 		// Check if a new cache is available on page load.
 		window.addEventListener('load', function(e) {
@@ -416,8 +119,22 @@
 
 		}, false);
 
+
+		// Knockout Binding!
+    	var myViewModel = new cs.ViewModel();
+    	ko.applyBindings(myViewModel);
+
+
 		// Show the first page
 		cs.showPage("#psalm-select-page");
+
     </script>
+
+
+	<!--
+		Resources:
+			http://stackoverflow.com/questions/4165836/javascript-scale-text-to-fit-in-fixed-div
+			http://stackoverflow.com/questions/5849173/multiple-buttons-on-right-hand-side-of-header
+	-->
 </body>
 </html>
