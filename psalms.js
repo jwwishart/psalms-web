@@ -152,7 +152,7 @@
 			);
 
 			var versions = cs.psalm.psalmVersions(vm.psalmNumber());
-			var size = this.determineOptimalWidth(text);
+			var size = this.determineOptimalWidth2(text);
 
 			// Version Buttons
 			vm.showPsalm119Button(false);
@@ -218,6 +218,36 @@
 			});
 
 			return false;
+		},
+
+		this.determineOptimalWidth2 = function(text) {
+			// Clear the contents as it is
+			var psalmContents = $("#psalm-contents");
+			psalmContents.html('')
+
+			// Insert a resizer text span with smallest size and add the text
+			psalmContents.append('<span class="resizer" style="visibility: hidden"></span>')
+			var resizer = psalmContents.find(".resizer");
+
+			resizer.css("font-size", "5px");
+			resizer.html(text);
+
+			var size = 5;
+			var maximumSize = psalmContents.width(); // no contents so it should be 100% no more!
+
+			// Enlarge till the span is too wide for maximumSize
+			while(resizer.width() < maximumSize) {
+				size = parseInt(resizer.css("font-size"), 10);
+				size += 1;
+				resizer.css("font-size", size.toString() + "px");
+			}
+
+			// Back off a few font-size'es
+			size -= 2;
+
+			resizer.remove(); // remove it... we are done!
+
+			return size;
 		},
 
 		this.determineOptimalWidth = function(text) {
