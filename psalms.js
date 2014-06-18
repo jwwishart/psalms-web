@@ -6,9 +6,9 @@
 
 	function hidePage(page, callback) {
 		if (_transitioning === true) {
-			setTimeout(function() {
-				hidePage(page, callback)
-			}, 4);
+			//setTimeout(function() {
+			//	hidePage(page, callback)
+			//}, 4);
 
 			return;
 		}
@@ -23,9 +23,9 @@
 
 	function showPage(page, callback) {
 		if (_transitioning === true) {
-			setTimeout(function() {
-				showPage(page, callback)
-			}, 4);
+			//setTimeout(function() {
+			//	showPage(page, callback)
+			//}, 4);
 			
 			return;
 		}
@@ -126,77 +126,16 @@
 
 			vm.showText(false);
 
+			vm.showPsalm119Button(false);
+			vm.showDuelVersionButtons(false);
+
 			cs.showPage("psalm-content-page", function() {
 				vm.bindPsalmData();
 
 				vm.showText(true);
 			});
 		},
-
-		this.backToSelectPsalm = function() {
-			$(window).off("resize", this.calculateFontSizeOnResize);
-
-			cs.showPage("psalm-select-page");
-		}
-
-		this.bindPsalmData = function() {
-			vm.psalmText(" ");
-
-			$(window).off("resize", this.calculateFontSizeOnResize);
-
-			// Get Specific Version
-			var text =  cs.psalm.getPsalmText(
-				vm.psalmNumber(), 
-				vm.psalmVersion(), 
-				true /* format */
-			);
-
-			var versions = cs.psalm.psalmVersions(vm.psalmNumber());
-			var size = this.determineOptimalWidth2(text);
-
-			// Version Buttons
-			vm.showPsalm119Button(false);
-			vm.showDuelVersionButtons(false);
-
-			if (versions === 2) {	    				
-				vm.showDuelVersionButtons(true);
-			} else if (versions === 22) {
-				vm.showPsalm119Button(true);
-			}
-
-			// Bind Text and font size
-			vm.textSize(size);
-			vm.psalmText(text);
-			//vm.psalmVersion(vm.psalmVersion());
-
-			$(window).on("resize", this.calculateFontSizeOnResize);
-		}
-
-		this.currentSelectedVersion = ko.computed(function() {
-			// Will just ignore that we might not be on a psalm
-			// with multiple versions or on psalm 119 as 
-			// that stuff won't be visible anyway!
-			return 'choice-' + this.psalmVersion();
-		}, this);
-
-		this.selectVersion1 = function() {
-			vm.psalmVersion(1);
-			vm.bindPsalmData();
-
-			return false;
-		}
-
-		this.selectVersion2 = function() {
-			vm.psalmVersion(2);
-			vm.bindPsalmData();
-
-			return false;
-		}
-
-		this.viewPsalm119Selector = function() {
-			cs.showPage("psalm119-part-selector");
-		}
-
+		
 		this.selectPsalm119Part = function(vm, event) {
 			var li = $(event.target);
 
@@ -210,6 +149,8 @@
 			vm.psalmVersion(version);
 
 			vm.showText(false);		
+			vm.showPsalm119Button(false);
+			vm.showDuelVersionButtons(false);
 
 			cs.showPage("psalm-content-page", function() {
 				vm.bindPsalmData();
@@ -220,7 +161,61 @@
 			return false;
 		},
 
-		this.determineOptimalWidth2 = function(text) {
+		this.viewPsalm119Selector = function() {
+			vm.showText(false);
+
+			cs.showPage("psalm119-part-selector");
+		}
+
+		this.backToSelectPsalm = function() {
+			vm.showText(false);
+
+			cs.showPage("psalm-select-page");
+		};
+
+		this.isBinding = ko.observable(false);
+
+		this.bindPsalmData = function() {
+			console.log("bindPsalmData");
+
+			vm.psalmText("");
+
+			this.isBinding(true);
+
+			// Get Specific Version
+			var text =  cs.psalm.getPsalmText(
+				vm.psalmNumber(), 
+				vm.psalmVersion(), 
+				true /* format */
+			);
+
+			var versions = cs.psalm.psalmVersions(vm.psalmNumber());
+			var size = this.determineOptimalWidth(text);
+
+			// Version Buttons
+			if (versions === 2) {	    				
+				vm.showDuelVersionButtons(true);
+			} else if (versions === 22) {
+				vm.showPsalm119Button(true);
+			}
+
+			// Bind Text and font size
+			vm.textSize(size);
+			vm.psalmText(text);
+
+			this.isBinding(false);
+		};
+
+		this.currentSelectedVersion = ko.computed(function() {
+			// Will just ignore that we might not be on a psalm
+			// with multiple versions or on psalm 119 as 
+			// that stuff won't be visible anyway!
+			return 'choice-' + this.psalmVersion();
+		}, this);
+
+
+
+		this.determineOptimalWidth = function(text) {
 			// Clear the contents as it is
 			var psalmContents = $("#psalm-contents");
 			psalmContents.html('')
@@ -240,6 +235,11 @@
 				size = parseInt(resizer.css("font-size"), 10);
 				size += 1;
 				resizer.css("font-size", size.toString() + "px");
+
+				if (size > 500) {
+					alert("500px... really??");
+					break;
+				}
 			}
 
 			// Back off a few font-size'es
@@ -250,7 +250,31 @@
 			return size;
 		},
 
-		this.determineOptimalWidth = function(text) {
+		this.selectVersion1 = function() {
+			vm.psalmVersion(1);
+			vm.bindPsalmData();
+
+			return false;
+		}
+
+		this.selectVersion2 = function() {
+			vm.psalmVersion(2);
+			vm.bindPsalmData();
+
+			return false;
+		}
+
+		this.resizedOccured = function() {
+			console.log("resizeOccured");
+
+			if (this.isBinding() === false && this.showText() === true) {
+				_.debounce(function() {
+					vm.bindPsalmData();
+				}, 200)();
+			}
+		};
+
+		this.determineOptimalWidth_Old = function(text) {
     		var tryCounter = 0;
 
     		// Ensure We have info and Resizer in Page
@@ -321,14 +345,6 @@
 
 			return size;
     	}
-
-		this.calculateFontSizeOnResize = _.debounce(function() {
-			var contentElement = $("#psalm-contents");
-
-			if (contentElement.is(":visible") && $(window).width() !== vm.lastWindowWidth()) {
-				vm.bindPsalmData();
-			}
-		}, 400);
 	};
 
 
