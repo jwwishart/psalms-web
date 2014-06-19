@@ -301,6 +301,25 @@
 			}
 		};
 
+		this.selectSearchResult = function(data) {
+			var number = this.number;
+				part = this.version;
+
+			vm.psalmNumber(number);
+			vm.psalmVersion(part);
+
+			vm.showText(false);
+
+			vm.showPsalm119Button(false);
+			vm.showDuelVersionButtons(false);
+
+			cs.showPage("psalm-content-page", function() {
+				vm.bindPsalmData();
+
+				vm.showText(true);
+			});
+		};
+
 		this.determineOptimalWidth_Old = function(text) {
 			var tryCounter = 0;
 

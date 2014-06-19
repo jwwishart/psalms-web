@@ -31,14 +31,30 @@
 		if ($.type(term) === 'string') {
 			for (psalmNo in _data) {
 				for (versionNo in _data[psalmNo]) {
-					if (_data[psalmNo][versionNo].text.indexOf(term) != -1) {
-						results.push(_data[psalmNo][versionNo]);
+					if (_data[psalmNo][versionNo].text.search(new RegExp(term, "gi")) != -1) {
+						results.push(_processSearchResultText(_data[psalmNo][versionNo], term));
 					}
 				}
 			}
 		}
 
 		return results;
+	}
+
+	function _processSearchResultText(result, term) {
+		var newResult = JSON.parse(JSON.stringify(result)); // No reference to original...
+
+		// No Formatting thanks
+		newResult.text = newResult.text.replace(/<br>/g, ' ');
+
+		// TODO Encode?
+		newResult.text = newResult.text.replace(term, '<span class="search-term-match">' +  term + '</span>');
+
+		// TODO: determine whether there are multiple instances. Split into separate entries
+		//		- copy, split the text
+		// TODO: 
+
+		return newResult;
 	}
 
 

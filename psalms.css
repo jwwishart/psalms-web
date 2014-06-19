@@ -202,11 +202,13 @@ div#psalm-select-page {
 			background-color: #eee;
 		}
 
-	div#psalm-select-page .search-panel	{
-		padding: 5px;
-	}
 
-	div#psalm-select-page .search-panel input {
+
+.search-panel	{
+	padding: 5px;
+}
+
+	.search-panel input {
 		border-radius: 5px;
 		border: 1px solid #ccc;
 		display: block;
@@ -214,7 +216,36 @@ div#psalm-select-page {
 		padding: 5px;
 	}
 
-		
+	
+
+div#psalm-search-results {
+}
+
+	div#psalm-search-results .result-item {
+		margin: 5px;
+		padding: 5px;
+
+		border: 1px solid #ccc;
+		border-radius: 5px;
+
+		cursor: pointer;
+	}
+
+		div#psalm-search-results .result-item .psalm-result-info {
+			font-weight: bold;
+			font-size: 1.1em;
+		}
+
+		div#psalm-search-results .result-item a {
+			text-decoration: none;
+		}
+
+		div#psalm-search-results .search-term-match {
+			color: red;
+			font-weight: bold;
+			font-size: inherit;
+		}
+
 
 div#psalm-content-page {
 }

@@ -34,16 +34,28 @@
     </div>
 
 	<!-- Search Results -->
-    <div id='psalm-content-page' class="page">
+    <div id='psalm-search-results' class="page">
     	<div class="page-header">
     		<a href="javascript:void(0);" class="button dark inline float-left" data-bind="click: backToSelectPsalm">Back</a>
+    		<h1>
+    			Search Results: '<span data-bind="text: searchTerm"></span>' found 
+    			<span data-bind="text: searchResults().length"></span>
+    		</h1>
         </div>
+
+ 		<div class="search-panel">
+			<input type="search" placeholder="Search..." data-bind="value: searchTerm, event: { keyup: checkForEnterPressed }" />
+		</div>
  
- 		<div class="search-results" data-bind="foreach: searchResults">
+ 		<div class="page-content search-results" data-bind="foreach: searchResults">
  			<div class="result-item">
  				<a data-bind="click: $parent.selectSearchResult" href="javascript:void(0);">
- 					Psalm: <span data-bind="text: $data.number"></span> (Version: <span data-bind="text: $data.version"></span>)
- 					<div data-bind="text: $data.text"></div> 					
+ 					<div class="psalm-result-info">
+						Psalm: <span data-bind="text: $data.number"></span> 
+ 						(#<span  data-bind="text: $data.version"></span>)	
+ 					</div>
+
+ 					<div data-bind="html: $data.text"></div> 					
  				</a>
  			</div>
  		</div>
