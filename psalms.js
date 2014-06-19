@@ -56,7 +56,7 @@
 
 			// If has a hashe don't add one to query...
 			if (idElementOrjQuery.indexOf(hash) != -1) {
-				hash = ''; 
+				hash = '';
 			}
 
 			idElementOrjQuery = $(hash + idElementOrjQuery);
@@ -70,6 +70,13 @@
 		return idElementOrjQuery;
 	}
 
+	function trim(str) {
+		if (str && str.trim) {
+			return str.trim();
+		} else {
+			return str.replace(/^\s+|\s+$/gm,'');
+		}
+	}
 
 	var ViewModel = function() {
 		var vm = this,
@@ -134,7 +141,7 @@
 
 				vm.showText(true);
 			});
-		},
+		};
 		
 		this.selectPsalm119Part = function(vm, event) {
 			var li = $(event.target);
@@ -148,7 +155,7 @@
 			vm.psalmNumber(119);
 			vm.psalmVersion(version);
 
-			vm.showText(false);		
+			vm.showText(false);
 			vm.showPsalm119Button(false);
 			vm.showDuelVersionButtons(false);
 
@@ -159,13 +166,13 @@
 			});
 
 			return false;
-		},
+		};
 
 		this.viewPsalm119Selector = function() {
 			vm.showText(false);
 
 			cs.showPage("psalm119-part-selector");
-		}
+		};
 
 		this.backToSelectPsalm = function() {
 			vm.showText(false);
@@ -184,16 +191,16 @@
 
 			// Get Specific Version
 			var text =  cs.psalm.getPsalmText(
-				vm.psalmNumber(), 
-				vm.psalmVersion(), 
+				vm.psalmNumber(),
+				vm.psalmVersion(),
 				true /* format */
 			);
 
 			var versions = cs.psalm.psalmVersions(vm.psalmNumber());
-			var size = this.determineOptimalWidth(text);
+			var size = this.determineOptimalWidth($("#psalm-contents"), text);
 
 			// Version Buttons
-			if (versions === 2) {	    				
+			if (versions === 2) {
 				vm.showDuelVersionButtons(true);
 			} else if (versions === 22) {
 				vm.showPsalm119Button(true);
@@ -213,22 +220,19 @@
 			return 'choice-' + this.psalmVersion();
 		}, this);
 
-
-
-		this.determineOptimalWidth = function(text) {
+		this.determineOptimalWidth = function(outputContainer, text) {
 			// Clear the contents as it is
-			var psalmContents = $("#psalm-contents");
-			psalmContents.html('')
+			outputContainer.html('');
 
 			// Insert a resizer text span with smallest size and add the text
-			psalmContents.append('<span class="resizer" style="visibility: hidden"></span>')
-			var resizer = psalmContents.find(".resizer");
+			outputContainer.append('<span class="resizer" style="visibility: hidden"></span>');
+			var resizer = outputContainer.find(".resizer");
 
 			resizer.css("font-size", "5px");
 			resizer.html(text);
 
 			var size = 5;
-			var maximumSize = psalmContents.width(); // no contents so it should be 100% no more!
+			var maximumSize = outputContainer.width(); // no contents so it should be 100% no more!
 
 			// Enlarge till the span is too wide for maximumSize
 			while(resizer.width() < maximumSize) {
@@ -248,21 +252,21 @@
 			resizer.remove(); // remove it... we are done!
 
 			return size;
-		},
+		};
 
 		this.selectVersion1 = function() {
 			vm.psalmVersion(1);
 			vm.bindPsalmData();
 
 			return false;
-		}
+		};
 
 		this.selectVersion2 = function() {
 			vm.psalmVersion(2);
 			vm.bindPsalmData();
 
 			return false;
-		}
+		};
 
 		this.resizedOccured = function() {
 			console.log("resizeOccured");
@@ -274,18 +278,41 @@
 			}
 		};
 
+		this.checkForEnterPressed = function(vm, e) {
+			if (e.which === 13) {
+				this.search();
+			}
+		};
+
+
+		// SEARCH
+		//
+
+		this.searchTerm = ko.observable('');
+		this.searchResults = ko.observable([]);
+
+		this.search = function() {
+			var term = trim(this.searchTerm()),
+				results;
+
+			if (term && term.length > 0) {
+				this.searchResults(cs.psalm.search(term));
+				cs.showPage("psalm-search-results");
+			}
+		};
+
 		this.determineOptimalWidth_Old = function(text) {
-    		var tryCounter = 0;
+			var tryCounter = 0;
 
-    		// Ensure We have info and Resizer in Page
-    		var currentPage = $("#psalm-contents");
-    		//var psalmContents = currentPage.html("");
+			// Ensure We have info and Resizer in Page
+			var currentPage = $("#psalm-contents");
+			//var psalmContents = currentPage.html("")
 
-    		var desiredWidth = currentPage.width() - 25;
-    		var resizer = currentPage.find(".resizer");
+			var desiredWidth = currentPage.width() - 25;
+			var resizer = currentPage.find(".resizer");
 			
 			if (resizer.length === 0) {
-				currentPage.append('<span class="resizer" style="visibility: hidden"></span>')
+				currentPage.append('<span class="resizer" style="visibility: hidden"></span>');
 				resizer = currentPage.find(".resizer");
 			}
 
@@ -302,40 +329,40 @@
 				while(resizer.width() < desiredWidth) {
 					size = parseInt(resizer.css("font-size"), 10);
 					size += 1;
-				  	resizer.css("font-size", size);
+					resizer.css("font-size", size);
 
-				  	if(size > 200) {
-				  		if(console && console.error) {
-				  			console.error("cannot determine correct size of font required");
-				  		}
-				  		break;
-				  	}
+					if(size > 200) {
+						if(console && console.error) {
+							console.error("cannot determine correct size of font required");
+						}
+						break;
+					}
 
-				  	tryCounter += 1;
+					tryCounter += 1;
 
-				  	if (tryCounter > 1000) {
-				  		break;
-				  	}
+					if (tryCounter > 1000) {
+						break;
+					}
 				}
 			} else {
 				// Too big, shrink
 				while(resizer.width() > desiredWidth) {
-				  	size = parseInt(resizer.css("font-size"), 10);
-				  	size -= 1;
-				  	resizer.css("font-size", size);
+					size = parseInt(resizer.css("font-size"), 10);
+					size -= 1;
+					resizer.css("font-size", size);
 
-				  	if(size > 200) {
-				  		if(console && console.error) {
-				  			console.error("cannot determine correct size of font required");
-				  		}
-				  		break;
-				  	}
+					if(size > 200) {
+						if(console && console.error) {
+							console.error("cannot determine correct size of font required");
+						}
+						break;
+					}
 
-				  	tryCounter += 1;
+					tryCounter += 1;
 
-				  	if (tryCounter > 1000) {
-				  		break;
-				  	}
+					if (tryCounter > 1000) {
+						break;
+					}
 				}
 			}
 
@@ -344,9 +371,8 @@
 			resizer.html('');
 
 			return size;
-    	}
+		};
 	};
-
 
 	window.cs.log = function(options) {
 		var opts = _.extend({
@@ -354,7 +380,8 @@
 		}, options);
 
 		var log = localStorage.getItem("_log");
-		if (log == null) {
+
+		if (log === null || log === undefined) {
 			log = [];
 		}
 

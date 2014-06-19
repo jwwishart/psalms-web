@@ -19,6 +19,10 @@
             <h1>Psalm Selection</h1>
         </div>
  
+		<div class="search-panel">
+			<input type="search" placeholder="Search..." data-bind="value: searchTerm, event: { keyup: checkForEnterPressed }" />
+		</div>
+
         <div class="page-content" data-bind="foreach: psalmNumbers">
         	<div class="psalm-number-button">	
 				<a data-bind="click: $parent.selectPsalm" href="javascript:void(0);">
@@ -27,6 +31,22 @@
 				</a>
 			</div>
         </div>
+    </div>
+
+	<!-- Search Results -->
+    <div id='psalm-content-page' class="page">
+    	<div class="page-header">
+    		<a href="javascript:void(0);" class="button dark inline float-left" data-bind="click: backToSelectPsalm">Back</a>
+        </div>
+ 
+ 		<div class="search-results" data-bind="foreach: searchResults">
+ 			<div class="result-item">
+ 				<a data-bind="click: $parent.selectSearchResult" href="javascript:void(0);">
+ 					Psalm: <span data-bind="text: $data.number"></span> (Version: <span data-bind="text: $data.version"></span>)
+ 					<div data-bind="text: $data.text"></div> 					
+ 				</a>
+ 			</div>
+ 		</div>
     </div>
 
 

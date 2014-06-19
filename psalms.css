@@ -202,6 +202,18 @@ div#psalm-select-page {
 			background-color: #eee;
 		}
 
+	div#psalm-select-page .search-panel	{
+		padding: 5px;
+	}
+
+	div#psalm-select-page .search-panel input {
+		border-radius: 5px;
+		border: 1px solid #ccc;
+		display: block;
+		width: 100%;
+		padding: 5px;
+	}
+
 		
 
 div#psalm-content-page {

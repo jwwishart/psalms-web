@@ -24,13 +24,16 @@
 	}
 
 	function search(term) {
-		var index = 0,
+		var psalmNo = 0,
+			versionNo = 0,
 			results = [];
 
 		if ($.type(term) === 'string') {
-			for(index in _data) {
-				if (_data[index].text.indexOf(term) != -1) {
-					results = _data[index];
+			for (psalmNo in _data) {
+				for (versionNo in _data[psalmNo]) {
+					if (_data[psalmNo][versionNo].text.indexOf(term) != -1) {
+						results.push(_data[psalmNo][versionNo]);
+					}
 				}
 			}
 		}
@@ -48,6 +51,7 @@
 	window.cs.psalm.getPsalm = getPsalm;
 	window.cs.psalm.getPsalmText = getPsalmText;
 	window.cs.psalm.psalmVersions = psalmVersions;
+	window.cs.psalm.search = search;
 
 
 	// DATA
