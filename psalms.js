@@ -285,6 +285,7 @@
 
 		this.checkForEnterPressed = function(vm, e) {
 			if (e.which === 13) {
+				e.target.blur();
 				this.search();
 			}
 		};
