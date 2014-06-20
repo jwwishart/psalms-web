@@ -324,6 +324,10 @@
 				vm.showText(true);
 			});
 		};
+
+		this.showPartNumber= function(data) {
+			return cs.psalm.psalmVersions(data.number) > 1;
+		};
 	};
 
 	// KUDOS: http://www.quirksmode.org/js/eventSimple.html

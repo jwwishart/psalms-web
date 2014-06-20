@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- <html manifest="cache.manifest"> -->
+<html manifest="cache.manifest">
 <html>
 <head>
 	
@@ -60,7 +60,12 @@
 				<a data-bind="click: $parent.selectSearchResult" href="javascript:void(0);">
 					<div class="psalm-result-info">
 						Psalm: <span data-bind="text: $data.number"></span> 
-						(#<span  data-bind="text: $data.version"></span>)	
+
+						<span data-bind="visible: $parent.showPartNumber($data)">
+							- <span data-bind="visible: $data.number === 119">Part </span>
+							<span data-bind="visible: $data.number != 119">Version</span>
+							<span data-bind="text: $data.version"></span>	
+						</span>
 					</div>
 
 					<div data-bind="html: $data.text"></div> 					
@@ -156,8 +161,8 @@
 		window.DEBUG = true;
 	</script>
 
-	<script src="psalms.data.js"></script>
 	<script src="psalms.js"></script>
+	<script src="psalms.data.js"></script>
 
 	<script>
 		// Check if a new cache is available on page load.
