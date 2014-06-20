@@ -1,5 +1,17 @@
 
 (function($) {
+	window.cs = window.cs || {};
+	window.cs.psalm = window.cs.psalm || {};
+	window.cs.psalm.options = window.cs.psalm.options || {
+		search: {
+			resultPrefix: '...',
+			resultSuffix: '...',
+			includeLeftN: 40,
+			includeRightN: 40
+		}
+	};
+
+
 	function getPsalm(number, version) {
 		return _data[number - 1][version - 1];
 	}
@@ -42,32 +54,77 @@
 	}
 
 	function _processSearchResultText(result, term) {
-		var highlightRegExp = new RegExp(term, "gi"),
+		var highlightRegExp = new RegExp("(" + term + ")", "gi"),
 			brReplaceRegExp = new RegExp("<br>", "gi");
 
 		var newResult = JSON.parse(JSON.stringify(result)); // No reference to original...
 
-		// No Formatting thanks
+		// No BR tags thanks!
 		newResult.text = newResult.text.replace(brReplaceRegExp, ' ');
 
-		// TODO Encode?
-		// TODO: replace what is there ... currently this will change
-		// 		the casing .. "David" to "david" for example if searching for "david"
-		newResult.text = newResult.text.replace(highlightRegExp, '<span class="search-term-match">' +  term + '</span>');
+		// Remove 2 spaces in a row...
+		newResult.text = newResult.text.replace(/\s\s/gi, ' ')
+									   .replace(/\s\s/gi, ' ');
 
-		// TODO: determine whether there are multiple instances. Split into separate entries
-		//		- copy, split the text
-		// TODO: 
+		// Split 20 characters either side of the term
+		newResult.text = _extractPortions(newResult.text, term);
+
+		// Replace occurences with highlighted spans...
+		newResult.text = newResult.text.replace(highlightRegExp,
+												'<span class="search-term-match">$1</span>');
 
 		return newResult;
+	}
+
+	function _extractPortions(text, term) {
+		var results = [],
+			textLength = text.length,
+			foundIndex = 0,
+			startIndex = 0,
+			endIndex = 0,
+			includeStartEllipse = false,
+			includeEndEllipse = false,
+			portion = '',
+			result = [],
+			regex = new RegExp("(" + term + ")", "gi");
+
+		while ((result = regex.exec(text)) !== null) {
+			includeStartEllipse = true;
+			includeEndEllipse = true;
+
+			startIndex = result.index - cs.psalm.options.search.includeLeftN;
+			endIndex = result.index + cs.psalm.options.search.includeRightN;
+
+			if (startIndex < 0) {
+				includeStartEllipse = false;
+				startIndex = 0;
+			}
+
+			if (endIndex > textLength) {
+				includeEndEllipse = false;
+				endIndex = textLength; // substring doesn't include end index in result
+			}
+
+			portion = text.substring(startIndex, endIndex);
+			
+			if (includeStartEllipse === true) {
+				portion = cs.psalm.options.search.resultPrefix + portion;
+			}
+
+			if (includeEndEllipse === true) {
+				portion = portion + cs.psalm.options.search.resultSuffix;
+			}
+
+			results.push(portion);
+		}
+
+		return results.join("<br>");
 	}
 
 
 	// API
 	//
 
-	window.cs = window.cs || {};
-	window.cs.psalm = window.cs.psalm || {};
 
 	window.cs.psalm.getPsalm = getPsalm;
 	window.cs.psalm.getPsalmText = getPsalmText;

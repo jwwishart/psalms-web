@@ -1,14 +1,21 @@
 
 
 (function($) {
+	var win = window,
+		doc = win.document;
+
+	win.cs = window.cs || {};
+	win.cs.text = window.cs.text || {};
+	win.cs.psalm = window.cs.psalm || {};
+
+
+	// Navigation -------------------------------------------------------------
+	// 
+
 	var _transitioning = false;
 
 	function hidePage(page, callback) {
 		if (_transitioning === true) {
-			//setTimeout(function() {
-			//	hidePage(page, callback)
-			//}, 4);
-
 			return;
 		}
 
@@ -16,16 +23,13 @@
 
 		_selectElement(page).fadeOut(cs.hidePage.speed, function() {
 			_transitioning = false;
+
 			if (callback) callback();
 		});
 	}
 
 	function showPage(page, callback) {
 		if (_transitioning === true) {
-			//setTimeout(function() {
-			//	showPage(page, callback)
-			//}, 4);
-			
 			return;
 		}
 
@@ -34,14 +38,12 @@
 		// Hide pages that are showing
 		$(".page:visible").hide();
 
-		window.scrollTo(0, 0);
+		win.scrollTo(0, 0);
 
 		// Show the page
 		_selectElement(page).fadeIn(cs.showPage.speed, function() {
 			_transitioning = false;
 			
-			//window.location.hash = page;
-
 			if (callback) callback();
 		});
 	}
@@ -50,7 +52,7 @@
 		var hash = '#';
 
 		// String
-		if ($.type(idElementOrjQuery) === 'string') {
+		if (cs.isString(idElementOrjQuery)) {
 			idElementOrjQuery = $.trim(idElementOrjQuery);
 
 			// If has a hashe don't add one to query...
@@ -70,11 +72,16 @@
 	}
 
 	function trim(str) {
-		if (str && str.trim) {
-			return str.trim();
-		} else {
-			return str.replace(/^\s+|\s+$/gm,'');
-		}
+		return str.replace(/^\s+|\s+$/gm,'');
+	}
+
+	// KUDOS: http://stackoverflow.com/a/7124052
+	function htmlEncode(input) {
+		return String(str).replace(/&/g, '&amp;')
+						  .replace(/"/g, '&quot;')
+						  .replace(/'/g, '&#39;')
+						  .replace(/</g, '&lt;')
+						  .replace(/>/g, '&gt;');
 	}
 
 	var ViewModel = function() {
@@ -317,124 +324,31 @@
 				vm.showText(true);
 			});
 		};
-
-		this.determineOptimalWidth_Old = function(text) {
-			var tryCounter = 0;
-
-			// Ensure We have info and Resizer in Page
-			var currentPage = $("#psalm-contents");
-			//var psalmContents = currentPage.html("")
-
-			var desiredWidth = currentPage.width() - 25;
-			var resizer = currentPage.find(".resizer");
-			
-			if (resizer.length === 0) {
-				currentPage.append('<span class="resizer" style="visibility: hidden"></span>');
-				resizer = currentPage.find(".resizer");
-			}
-
-			// Setup Resizer for Calculation
-			resizer.html('');
-			resizer.css('font-size', '5');
-			resizer.html(text);
-
-			var size = 5;
-			var tooSmall = (resizer.width() > desiredWidth) === false;
-
-			if (tooSmall) {
-				// Too small, enlarge
-				while(resizer.width() < desiredWidth) {
-					size = parseInt(resizer.css("font-size"), 10);
-					size += 1;
-					resizer.css("font-size", size);
-
-					if(size > 200) {
-						if(console && console.error) {
-							console.error("cannot determine correct size of font required");
-						}
-						break;
-					}
-
-					tryCounter += 1;
-
-					if (tryCounter > 1000) {
-						break;
-					}
-				}
-			} else {
-				// Too big, shrink
-				while(resizer.width() > desiredWidth) {
-					size = parseInt(resizer.css("font-size"), 10);
-					size -= 1;
-					resizer.css("font-size", size);
-
-					if(size > 200) {
-						if(console && console.error) {
-							console.error("cannot determine correct size of font required");
-						}
-						break;
-					}
-
-					tryCounter += 1;
-
-					if (tryCounter > 1000) {
-						break;
-					}
-				}
-			}
-
-			size -= 2;
-
-			resizer.html('');
-
-			return size;
-		};
-	};
-
-	window.cs.log = function(options) {
-		var opts = _.extend({
-			message: ''
-		}, options);
-
-		var log = localStorage.getItem("_log");
-
-		if (log === null || log === undefined) {
-			log = [];
-		}
-
-		log.push({
-			message: message,
-
-			// Window Dimentions
-			windowDimentions: {
-				width: window.innerWidth,
-				height: window.innerHeight
-			}
-		});
-
-		localStorage.setItem("_log", log);
 	};
 
 	// KUDOS: http://www.quirksmode.org/js/eventSimple.html
 	function addEventSimple(obj,evt,fn) {
-		if (obj.addEventListener)
+		if (obj.addEventListener) {
 			obj.addEventListener(evt,fn,false);
-		else if (obj.attachEvent)
+		} else if (obj.attachEvent) {
 			obj.attachEvent('on'+evt,fn);
+		}
 	}
 
 	function removeEventSimple(obj,evt,fn) {
-		if (obj.removeEventListener)
+		if (obj.removeEventListener) {
 			obj.removeEventListener(evt,fn,false);
-		else if (obj.detachEvent)
+		} else if (obj.detachEvent) {
 			obj.detachEvent('on'+evt,fn);
+		}
 	}
 
 	function isString(str) {
 		return typeof str == 'string' || str instanceof String;
 	}
 
-	// Export
+
+	// Exports ----------------------------------------------------------------
 	//
 
 	window.cs.ViewModel = ViewModel;
@@ -449,6 +363,12 @@
 	window.cs.off = removeEventSimple;
 
 	window.cs.isString = isString;
+
+	window.cs = window.cs || {};
+	window.cs.psalm = window.cs.psalm || {};
+
+	window.cs.text.trim = trim;
+	window.cs.text.htmlEncode = htmlEncode;
 
 
 	// DEBUG

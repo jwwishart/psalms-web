@@ -2,173 +2,189 @@
 <!-- <html manifest="cache.manifest"> -->
 <html>
 <head>
-    
-    <title>Scottish Metrical Psalms</title> 
-    
-	<!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
-	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+	
+	<title>Scottish Metrical Psalms</title> 
+	
+	<meta name="viewport" 
+		  content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
 
-    <!-- Style -->
-    <link rel="stylesheet" href="psalms.css">
+	<!-- Style -->
+	<link rel="stylesheet" href="psalms.css">
 
 </head>
 <body>
 
 	<!-- Psalm Selector -->
-    <div id='psalm-select-page' class="page">
-        <div class="page-header">
-            <h1>Psalm Selection</h1>
-        </div>
- 
+	<div id='psalm-select-page' class="page">
+		<div class="page-header">
+			<h1>Psalm Selection</h1>
+		</div>
+	
 		<div class="search-panel">
-			<input type="search" placeholder="Search..." data-bind="value: searchTerm, event: { keyup: checkForEnterPressed }" />
+			<input type="search" 
+				   placeholder="Search..." 
+				   data-bind="value: searchTerm, 
+				   		  	  event: { keyup: checkForEnterPressed }" />
 		</div>
 
-        <div class="page-content" data-bind="foreach: psalmNumbers">
-        	<div class="psalm-number-button">	
+		<div class="page-content" data-bind="foreach: psalmNumbers">
+			<div class="psalm-number-button">	
 				<a data-bind="click: $parent.selectPsalm" href="javascript:void(0);">
 					<span data-bind="text: $data.number"></span>
 					<span data-bind="visible: $data.partCount > 1" style="display: block;position: relative; width: 100%; height: 100%; clear: both"><span style="display: block; font-size: 0.7em; position: absolute; bottom: 0; right: 0;margin: -10px -7px ;padding:  0;" data-bind="text: $data.partCount"></span></span>
 				</a>
 			</div>
-        </div>
-    </div>
+		</div>
+	</div>
 
 	<!-- Search Results -->
-    <div id='psalm-search-results' class="page">
-    	<div class="page-header">
-    		<a href="javascript:void(0);" class="button dark inline float-left" data-bind="click: backToSelectPsalm">Select Psalm...</a>
-    		<h1>
-    			Search Results: '<span data-bind="text: searchTerm"></span>' found 
-    			<span data-bind="text: searchResults().length"></span>
-    		</h1>
-        </div>
+	<div id='psalm-search-results' class="page">
+		<div class="page-header">
+			<a data-bind="click: backToSelectPsalm" 
+			   class="button dark inline float-left" 
+			   href="javascript:void(0);">Select Psalm...</a>
 
- 		<div class="search-panel">
-			<input type="search" placeholder="Search..." data-bind="value: searchTerm, event: { keyup: checkForEnterPressed }" />
+			<h1>
+				<span data-bind="text: searchResults().length"></span> results for '<span data-bind="text: searchTerm"></span>'
+			</h1>
 		</div>
- 
- 		<div class="page-content search-results" data-bind="foreach: searchResults">
- 			<div class="result-item">
- 				<a data-bind="click: $parent.selectSearchResult" href="javascript:void(0);">
- 					<div class="psalm-result-info">
-						Psalm: <span data-bind="text: $data.number"></span> 
- 						(#<span  data-bind="text: $data.version"></span>)	
- 					</div>
 
- 					<div data-bind="html: $data.text"></div> 					
- 				</a>
- 			</div>
- 		</div>
-    </div>
+		<div class="search-panel">
+			<input type="search" placeholder="Search..." 
+				   data-bind="value: searchTerm, 
+				   			  event: { keyup: checkForEnterPressed }" />
+		</div>
+	
+		<div class="page-content search-results" data-bind="foreach: searchResults">
+			<div class="result-item">
+				<a data-bind="click: $parent.selectSearchResult" href="javascript:void(0);">
+					<div class="psalm-result-info">
+						Psalm: <span data-bind="text: $data.number"></span> 
+						(#<span  data-bind="text: $data.version"></span>)	
+					</div>
+
+					<div data-bind="html: $data.text"></div> 					
+				</a>
+			</div>
+		</div>
+	</div>
 
 
 	<!-- Psalm Content -->
-    <div id='psalm-content-page' class="page">
-    	<div class="page-header">
-    		<a href="javascript:void(0);" class="button dark inline float-left" data-bind="click: backToSelectPsalm">Select Psalm...</a>
+	<div id='psalm-content-page' class="page">
+		<div class="page-header">
+			<a data-bind="click: backToSelectPsalm" 
+			   class="button dark inline float-left"
+			   href="javascript:void(0);">Select Psalm...</a>
 
-			<a href="javascript:void(0);" class="button dark inline float-right" data-bind="css: { 'button-selected': psalmVersion() === 2 }, visible: showDuelVersionButtons, click: selectVersion2">Ver. 2</a>
-			<a href="javascript:void(0);" class="button dark inline float-right" data-bind="css: { 'button-selected': psalmVersion() === 1 }, visible: showDuelVersionButtons, click: selectVersion1">Ver. 1</a>
+			<a data-bind="css: { 'button-selected': psalmVersion() === 2 }, 
+						  visible: showDuelVersionButtons, 
+						  click: selectVersion2"
+			   class="button dark inline float-right"
+			   href="javascript:void(0);">Ver. 2</a>
 
-			<a data-bind="visible: showPsalm119Button, click: viewPsalm119Selector" class="button dark inline float-right">Select Part...</a>
+			<a data-bind="css: { 'button-selected': psalmVersion() === 1 }, 
+						  visible: showDuelVersionButtons, 
+						  click: selectVersion1"
+			   href="javascript:void(0);" 
+			   class="button dark inline float-right" >Ver. 1</a>
 
-			<h1 id="psalm-number-header">Psalm <span data-bind="text: psalmNumber"></span></h1>
-        </div>
- 
- 		<div class='page-content' data-bind="css: { 'hide-text': showText() === false }">
-	        <div id="psalm-contents" class="psalm-contents"
-	        	 data-bind=" attr: { 'data-psalm-number' : psalmNumber },
-	        	 			style: { fontSize: fontSize },
-	        	 			 html: psalmText">
-	        </div>
-        </div>
-    </div>
+			<a data-bind="visible: showPsalm119Button, 
+						  click: viewPsalm119Selector" 
+			   class="button dark inline float-right">Select Part...</a>
+
+			<h1 id="psalm-number-header">Psalm 
+				<span data-bind="text: psalmNumber"></span>
+			</h1>
+		</div>
+	
+		<div class='page-content' data-bind="css: { 'hide-text': showText() === false }">
+			<div id="psalm-contents" class="psalm-contents"
+				 data-bind=" attr: { 'data-psalm-number' : psalmNumber },
+							style: { fontSize: fontSize },
+							 html: psalmText">
+			</div>
+		</div>
+	</div>
 
 	<!-- Psalm 119 Version Selector -->
-    <div id="psalm119-part-selector" class="page">
+	<div id="psalm119-part-selector" class="page">
 		<div class="page-header">
-			<a href="javascript:void(0);" class="button dark inline float-left" data-bind="click: backToSelectPsalm">Back</a>
+			<a data-bind="click: backToSelectPsalm" 
+			   class="button dark inline float-left"
+			   href="javascript:void(0);">Back</a>
+
 			<h1>Select Psalms 119 Part</h1>
 		</div>
 		<div class="page-content">
 			<ul id="psalm119PartList">
-				<li class="button light" data-bind="click: selectPsalm119Part" data-part-no="1"><span>Part 1</span> <span>Verses 1-8</span></li>
-				<li class="button light" data-bind="click: selectPsalm119Part" data-part-no="2"><span>Part 2</span> <span>Verses 9-16</span></li>
-				<li class="button light" data-bind="click: selectPsalm119Part" data-part-no="3"><span>Part 3</span> <span>Verses 17-24</span></li>
-				<li class="button light" data-bind="click: selectPsalm119Part" data-part-no="4"><span>Part 4</span> <span>Verses 25-32</span></li>
-				<li class="button light" data-bind="click: selectPsalm119Part" data-part-no="5"><span>Part 5</span> <span>Verses 33-40</span></li>
-				<li class="button light" data-bind="click: selectPsalm119Part" data-part-no="6"><span>Part 6</span> <span>Verses 41-48</span></li>
-				<li class="button light" data-bind="click: selectPsalm119Part" data-part-no="7"><span>Part 7</span> <span>Verses 49-56</span></li>
-				<li class="button light" data-bind="click: selectPsalm119Part" data-part-no="8"><span>Part 8</span> <span>Verses 57-64</span></li>
-				<li class="button light" data-bind="click: selectPsalm119Part" data-part-no="9"><span>Part 9</span> <span>Verses 65-72</span></li>
-				<li class="button light" data-bind="click: selectPsalm119Part" data-part-no="10"><span>Part 10</span> <span>Verses 73-80</span></li>
-				<li class="button light" data-bind="click: selectPsalm119Part" data-part-no="11"><span>Part 11</span> <span>Verses 81-88</span></li>
-				<li class="button light" data-bind="click: selectPsalm119Part" data-part-no="12"><span>Part 12</span> <span>Verses 89-96</span></li>
-				<li class="button light" data-bind="click: selectPsalm119Part" data-part-no="13"><span>Part 13</span> <span>Verses 97-104</span></li>
-				<li class="button light" data-bind="click: selectPsalm119Part" data-part-no="14"><span>Part 14</span> <span>Verses 105-112</span></li>
-				<li class="button light" data-bind="click: selectPsalm119Part" data-part-no="15"><span>Part 15</span> <span>Verses 113-120</span></li>
-				<li class="button light" data-bind="click: selectPsalm119Part" data-part-no="16"><span>Part 16</span> <span>Verses 121-128</span></li>
-				<li class="button light" data-bind="click: selectPsalm119Part" data-part-no="17"><span>Part 17</span> <span>Verses 129-136</span></li>
-				<li class="button light" data-bind="click: selectPsalm119Part" data-part-no="18"><span>Part 18</span> <span>Verses 137-144</span></li>
-				<li class="button light" data-bind="click: selectPsalm119Part" data-part-no="19"><span>Part 19</span> <span>Verses 145-152</span></li>
-				<li class="button light" data-bind="click: selectPsalm119Part" data-part-no="20"><span>Part 20</span> <span>Verses 153-160</span></li>
-				<li class="button light" data-bind="click: selectPsalm119Part" data-part-no="21"><span>Part 21</span> <span>Verses 161-168</span></li>
-				<li class="button light" data-bind="click: selectPsalm119Part" data-part-no="22"><span>Part 22</span> <span>Verses 169-176</span></li>
+				<li data-bind="click: selectPsalm119Part" data-part-no="1"  class="button light"><span>Part 1</span> <span>Verses 1-8</span></li>
+				<li data-bind="click: selectPsalm119Part" data-part-no="2"  class="button light"><span>Part 2</span> <span>Verses 9-16</span></li>
+				<li data-bind="click: selectPsalm119Part" data-part-no="3"  class="button light"><span>Part 3</span> <span>Verses 17-24</span></li>
+				<li data-bind="click: selectPsalm119Part" data-part-no="4"  class="button light"><span>Part 4</span> <span>Verses 25-32</span></li>
+				<li data-bind="click: selectPsalm119Part" data-part-no="5"  class="button light"><span>Part 5</span> <span>Verses 33-40</span></li>
+				<li data-bind="click: selectPsalm119Part" data-part-no="6"  class="button light"><span>Part 6</span> <span>Verses 41-48</span></li>
+				<li data-bind="click: selectPsalm119Part" data-part-no="7"  class="button light"><span>Part 7</span> <span>Verses 49-56</span></li>
+				<li data-bind="click: selectPsalm119Part" data-part-no="8"  class="button light"><span>Part 8</span> <span>Verses 57-64</span></li>
+				<li data-bind="click: selectPsalm119Part" data-part-no="9"  class="button light"><span>Part 9</span> <span>Verses 65-72</span></li>
+				<li data-bind="click: selectPsalm119Part" data-part-no="10" class="button light"><span>Part 10</span> <span>Verses 73-80</span></li>
+				<li data-bind="click: selectPsalm119Part" data-part-no="11" class="button light"><span>Part 11</span> <span>Verses 81-88</span></li>
+				<li data-bind="click: selectPsalm119Part" data-part-no="12" class="button light"><span>Part 12</span> <span>Verses 89-96</span></li>
+				<li data-bind="click: selectPsalm119Part" data-part-no="13" class="button light"><span>Part 13</span> <span>Verses 97-104</span></li>
+				<li data-bind="click: selectPsalm119Part" data-part-no="14" class="button light"><span>Part 14</span> <span>Verses 105-112</span></li>
+				<li data-bind="click: selectPsalm119Part" data-part-no="15" class="button light"><span>Part 15</span> <span>Verses 113-120</span></li>
+				<li data-bind="click: selectPsalm119Part" data-part-no="16" class="button light"><span>Part 16</span> <span>Verses 121-128</span></li>
+				<li data-bind="click: selectPsalm119Part" data-part-no="17" class="button light"><span>Part 17</span> <span>Verses 129-136</span></li>
+				<li data-bind="click: selectPsalm119Part" data-part-no="18" class="button light"><span>Part 18</span> <span>Verses 137-144</span></li>
+				<li data-bind="click: selectPsalm119Part" data-part-no="19" class="button light"><span>Part 19</span> <span>Verses 145-152</span></li>
+				<li data-bind="click: selectPsalm119Part" data-part-no="20" class="button light"><span>Part 20</span> <span>Verses 153-160</span></li>
+				<li data-bind="click: selectPsalm119Part" data-part-no="21" class="button light"><span>Part 21</span> <span>Verses 161-168</span></li>
+				<li data-bind="click: selectPsalm119Part" data-part-no="22" class="button light"><span>Part 22</span> <span>Verses 169-176</span></li>
 			</ul>	
 		</div>
-    </div>
+	</div>
 
 
-    <!-- Script -->
-    <script src="//code.jquery.com/jquery-1.9.1.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/2.2.1/lodash.js"></script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/knockout/2.3.0/knockout-min.js"></script>
+	<!-- Script -->
+	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/knockout/3.1.0/knockout-min.js"></script>
 	<!--<script src="//cdnjs.cloudflare.com/ajax/libs/js-signals/1.0.0/js-signals.min.js"></script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/crossroads/0.12.0/crossroads.min.js"></script>-->
+		<script src="//cdnjs.cloudflare.com/ajax/libs/crossroads/0.12.0/crossroads.min.js"></script>-->
 
 	<script>
 		window.DEBUG = true;
 	</script>
 
-    <script src="psalms.data.js"></script>
-    <script src="psalms.js"></script>
+	<script src="psalms.data.js"></script>
+	<script src="psalms.js"></script>
 
-    <script>
-
+	<script>
 		// Check if a new cache is available on page load.
 		cs.on(window, "load", function(e) {
 			cs.on(window.applicationCache, "updateready",function(e) {
-			    if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
-			      // Browser downloaded a new app cache.
-			      if (confirm('A new version of this site is available. Load it?')) {
-			        window.location.reload();
-			      }
-			    } else {
-			      // Manifest didn't changed. Nothing new to server.
-			    }
+				if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
+					// Browser downloaded a new app cache.
+					if (confirm('A new version of this site is available. Load it?')) {
+						window.location.reload();
+					}
+				} else {
+					// Manifest didn't changed. Nothing new to server.
+				}
 			});
 		});
 
 
 		// Knockout Binding!
-    	var myViewModel = new cs.ViewModel();
-    	ko.applyBindings(myViewModel);
+		var myViewModel = new cs.ViewModel();
+		ko.applyBindings(myViewModel);
 
 
 		// Show the first page
-		cs.showPage("#psalm-select-page");
+		cs.showPage("psalm-select-page");
 
 		cs.on(window, "resize", function () { myViewModel.resizedOccured(); });
-		//$(window).on("resize", function () { myViewModel.resizedOccured(); });
+	</script>
 
-    </script>
-
-
-	<!--
-		Resources:
-			http://stackoverflow.com/questions/4165836/javascript-scale-text-to-fit-in-fixed-div
-			http://stackoverflow.com/questions/5849173/multiple-buttons-on-right-hand-side-of-header
-	-->
 </body>
 </html>
