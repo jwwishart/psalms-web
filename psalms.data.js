@@ -42,15 +42,18 @@
 	}
 
 	function _processSearchResultText(result, term) {
+		var highlightRegExp = new RegExp(term, "gi"),
+			brReplaceRegExp = new RegExp("<br>", "gi");
+
 		var newResult = JSON.parse(JSON.stringify(result)); // No reference to original...
 
 		// No Formatting thanks
-		newResult.text = newResult.text.replace(/<br>/gi, ' ');
+		newResult.text = newResult.text.replace(brReplaceRegExp, ' ');
 
 		// TODO Encode?
 		// TODO: replace what is there ... currently this will change
 		// 		the casing .. "David" to "david" for example if searching for "david"
-		newResult.text = newResult.text.replace(new RegExp(term, "gi"), '<span class="search-term-match">' +  term + '</span>');
+		newResult.text = newResult.text.replace(highlightRegExp, '<span class="search-term-match">' +  term + '</span>');
 
 		// TODO: determine whether there are multiple instances. Split into separate entries
 		//		- copy, split the text
