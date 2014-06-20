@@ -1,8 +1,7 @@
 
 
 (function($) {
-	var _transitioning = false,
-		$window = $(window);
+	var _transitioning = false;
 
 	function hidePage(page, callback) {
 		if (_transitioning === true) {
@@ -79,8 +78,7 @@
 	}
 
 	var ViewModel = function() {
-		var vm = this,
-			$window = $(window);
+		var vm = this;
 
 		// psalmNumbers: for Psalm Selection
 		this.psalmNumbers = ko.observableArray(_.map(_.range(1,151), function(i) {
@@ -118,7 +116,7 @@
 		this.showDuelVersionButtons = ko.observable(false);
 		this.showPsalm119Button = ko.observable(false);
 
-		this.lastWindowWidth = ko.observable($(window).width());
+		this.lastWindowWidth = ko.observable(window.innerWidth);
 
 		this.selectPsalm = function() {
 			var number = this.number;
@@ -409,14 +407,32 @@
 
 			// Window Dimentions
 			windowDimentions: {
-				width: $window.width,
-				height: $window.height
+				width: window.innerWidth,
+				height: window.innerHeight
 			}
 		});
 
 		localStorage.setItem("_log", log);
 	};
 
+	// KUDOS: http://www.quirksmode.org/js/eventSimple.html
+	function addEventSimple(obj,evt,fn) {
+		if (obj.addEventListener)
+			obj.addEventListener(evt,fn,false);
+		else if (obj.attachEvent)
+			obj.attachEvent('on'+evt,fn);
+	}
+
+	function removeEventSimple(obj,evt,fn) {
+		if (obj.removeEventListener)
+			obj.removeEventListener(evt,fn,false);
+		else if (obj.detachEvent)
+			obj.detachEvent('on'+evt,fn);
+	}
+
+	function isString(str) {
+		return typeof str == 'string' || str instanceof String;
+	}
 
 	// Export
 	//
@@ -428,6 +444,11 @@
 
 	window.cs.showPage = showPage;
 	window.cs.showPage.speed = 400;
+
+	window.cs.on = addEventSimple;
+	window.cs.off = removeEventSimple;
+
+	window.cs.isString = isString;
 
 
 	// DEBUG

@@ -15,7 +15,7 @@
 	}
 
 	function psalmVersions(number) {
-		if ($.type(number) === 'string'){
+		if (cs.isString(number)) {
 			number = parseInt(number, 10);
 		}
 
@@ -28,7 +28,7 @@
 			versionNo = 0,
 			results = [];
 
-		if ($.type(term) === 'string') {
+		if (cs.isString(term)) {
 			for (psalmNo in _data) {
 				for (versionNo in _data[psalmNo]) {
 					if (_data[psalmNo][versionNo].text.search(new RegExp(term, "gi")) != -1) {
@@ -45,10 +45,12 @@
 		var newResult = JSON.parse(JSON.stringify(result)); // No reference to original...
 
 		// No Formatting thanks
-		newResult.text = newResult.text.replace(/<br>/g, ' ');
+		newResult.text = newResult.text.replace(/<br>/gi, ' ');
 
 		// TODO Encode?
-		newResult.text = newResult.text.replace(term, '<span class="search-term-match">' +  term + '</span>');
+		// TODO: replace what is there ... currently this will change
+		// 		the casing .. "David" to "david" for example if searching for "david"
+		newResult.text = newResult.text.replace(new RegExp(term, "gi"), '<span class="search-term-match">' +  term + '</span>');
 
 		// TODO: determine whether there are multiple instances. Split into separate entries
 		//		- copy, split the text

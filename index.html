@@ -36,7 +36,7 @@
 	<!-- Search Results -->
     <div id='psalm-search-results' class="page">
     	<div class="page-header">
-    		<a href="javascript:void(0);" class="button dark inline float-left" data-bind="click: backToSelectPsalm">Back</a>
+    		<a href="javascript:void(0);" class="button dark inline float-left" data-bind="click: backToSelectPsalm">Select Psalm...</a>
     		<h1>
     			Search Results: '<span data-bind="text: searchTerm"></span>' found 
     			<span data-bind="text: searchResults().length"></span>
@@ -65,7 +65,7 @@
 	<!-- Psalm Content -->
     <div id='psalm-content-page' class="page">
     	<div class="page-header">
-    		<a href="javascript:void(0);" class="button dark inline float-left" data-bind="click: backToSelectPsalm">Back</a>
+    		<a href="javascript:void(0);" class="button dark inline float-left" data-bind="click: backToSelectPsalm">Select Psalm...</a>
 
 			<a href="javascript:void(0);" class="button dark inline float-right" data-bind="css: { 'button-selected': psalmVersion() === 2 }, visible: showDuelVersionButtons, click: selectVersion2">Ver. 2</a>
 			<a href="javascript:void(0);" class="button dark inline float-right" data-bind="css: { 'button-selected': psalmVersion() === 1 }, visible: showDuelVersionButtons, click: selectVersion1">Ver. 1</a>
@@ -136,18 +136,18 @@
     <script>
 
 		// Check if a new cache is available on page load.
-		window.addEventListener('load', function(e) {
-		  window.applicationCache.addEventListener('updateready', function(e) {
-		    if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
-		      // Browser downloaded a new app cache.
-		      if (confirm('A new version of this site is available. Load it?')) {
-		        window.location.reload();
-		      }
-		    } else {
-		      // Manifest didn't changed. Nothing new to server.
-		    }
-		  }, false);
-		}, false);
+		cs.on(window, "load", function(e) {
+			cs.on(window.applicationCache, "updateready",function(e) {
+			    if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
+			      // Browser downloaded a new app cache.
+			      if (confirm('A new version of this site is available. Load it?')) {
+			        window.location.reload();
+			      }
+			    } else {
+			      // Manifest didn't changed. Nothing new to server.
+			    }
+			});
+		});
 
 
 		// Knockout Binding!
@@ -158,7 +158,8 @@
 		// Show the first page
 		cs.showPage("#psalm-select-page");
 
-		$(window).on("resize", function () { myViewModel.resizedOccured(); });
+		cs.on(window, "resize", function () { myViewModel.resizedOccured(); });
+		//$(window).on("resize", function () { myViewModel.resizedOccured(); });
 
     </script>
 
