@@ -1,8 +1,9 @@
 
-(function($) {
-	window.cs = window.cs || {};
-	window.cs.psalm = window.cs.psalm || {};
-	window.cs.psalm.options = window.cs.psalm.options || {
+
+(function() {
+	var cs = window["cs"] || {};
+	cs.psalm = cs.psalm || {};
+	cs.psalm.options = cs.psalm.options || {
 		search: {
 			resultPrefix: '...',
 			resultSuffix: '...',
@@ -10,7 +11,6 @@
 			includeRightN: 40
 		}
 	};
-
 
 	function getPsalm(number, version) {
 		return _data[number - 1][version - 1];
@@ -23,7 +23,7 @@
 			return psalm.text.replace(/ /gi, '&nbsp;');
 		}
 
-		return text.text;
+		return psalm.text;
 	}
 
 	function psalmVersions(number) {
@@ -36,8 +36,8 @@
 	}
 
 	function search(term) {
-		var psalmNo = 0,
-			versionNo = 0,
+		var psalmNo: any = 0,
+			versionNo: any = 0,
 			results = [];
 
 		if (cs.isString(term)) {
@@ -85,7 +85,7 @@
 			includeStartEllipse = false,
 			includeEndEllipse = false,
 			portion = '',
-			result = [],
+			result: any = [],
 			regex = new RegExp("(" + term + ")", "gi");
 
 		while ((result = regex.exec(text)) !== null) {
@@ -126,10 +126,10 @@
 	//
 
 
-	window.cs.psalm.getPsalm = getPsalm;
-	window.cs.psalm.getPsalmText = getPsalmText;
-	window.cs.psalm.psalmVersions = psalmVersions;
-	window.cs.psalm.search = search;
+	cs.psalm.getPsalm = getPsalm;
+	cs.psalm.getPsalmText = getPsalmText;
+	cs.psalm.psalmVersions = psalmVersions;
+	cs.psalm.search = search;
 
 
 	// DATA
@@ -472,4 +472,4 @@
 	    { number: 150, version: 1, text: "1    Praise ye the Lord. God's praise within<br>          his sanctuary raise;<br>     And to him in the firmament<br>          of his pow'r give ye praise.<br><br>2    Because of all his mighty acts,<br>          with praise him magnify:<br>     O praise him, as he doth excel<br>          in glorious majesty.<br><br>3    Praise him with trumpet's sound; his praise<br>          with psaltery advance:<br>4    With timbrel, harp, string'd instruments,<br>          and organs, in the dance.<br><br>5    Praise him on cymbals loud; him praise<br>          on cymbals sounding high.<br>6    Let each thing breathing praise the Lord.<br>          Praise to the Lord give ye." }
 	  ]
 	];
-})(jQuery);
+})();

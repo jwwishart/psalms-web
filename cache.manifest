@@ -22,5 +22,4 @@ CACHE MANIFEST
 //cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js
 //cdnjs.cloudflare.com/ajax/libs/knockout/3.1.0/knockout-min.js
 
-//jwwishart.github.io/psalms-web/psalms.js
-//jwwishart.github.io/psalms-web/psalms.data.js
+//jwwishart.github.io/psalms-web/dist/script.js

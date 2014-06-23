@@ -1,5 +1,5 @@
 <!doctype html>
-<html manifest="cache.manifest">
+<!-- <html manifest="cache.manifest"> -->
 <html>
 <head>
 	
@@ -161,13 +161,13 @@
 		window.DEBUG = true;
 	</script>
 
-	<script src="psalms.js"></script>
-	<script src="psalms.data.js"></script>
+	<script src="dist/script.js"></script>
+	<!--<script src="dist/script.min.js"></script>-->
 
 	<script>
 		// Check if a new cache is available on page load.
-		cs.on(window, "load", function(e) {
-			cs.on(window.applicationCache, "updateready",function(e) {
+		cs.events.attach(window, "load", function(e) {
+			cs.events.attach(window.applicationCache, "updateready",function(e) {
 				if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
 					// Browser downloaded a new app cache.
 					if (confirm('A new version of this site is available. Load it?')) {
@@ -188,7 +188,7 @@
 		// Show the first page
 		cs.showPage("psalm-select-page");
 
-		cs.on(window, "resize", function () { myViewModel.resizedOccured(); });
+		cs.events.attach(window, "resize", function () { myViewModel.resizedOccured(); });
 	</script>
 
 </body>

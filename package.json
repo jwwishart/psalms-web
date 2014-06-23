@@ -1,0 +1,39 @@
+{
+  "name": "psalms-web",
+  "version": "0.0.0",
+  "description": "Offline Psalm Web Application",
+  "main": "index.html",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jwwishart/psalms-web.git"
+  },
+  "keywords": [
+    "psalm",
+    "offline",
+    "web"
+  ],
+  "author": "jwwishart",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jwwishart/psalms-web/issues"
+  },
+  "homepage": "https://github.com/jwwishart/psalms-web",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-jshint": "^0.10.0",
+    "grunt-contrib-uglify": "^0.5.0",
+    "mocha": "^1.20.1",
+    "should": "^4.0.4",
+    "grunt-contrib-concat": "^0.4.0",
+    "grunt-typescript": "^0.3.6",
+    "gulp": "^3.8.1",
+    "gulp-tsc": "^0.9.1",
+    "gulp-concat": "^2.2.0",
+    "gulp-uglify": "^0.3.1",
+    "gulp-clean": "^0.3.0",
+    "gulp-rename": "^1.2.0"
+  }
+}

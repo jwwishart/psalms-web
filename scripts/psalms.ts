@@ -1,12 +1,13 @@
 
+declare var jQuery: any, $: any, ko: any, _: any;
 
 (function($) {
 	var win = window,
 		doc = win.document;
 
-	win.cs = window.cs || {};
-	win.cs.text = window.cs.text || {};
-	win.cs.psalm = window.cs.psalm || {};
+	var cs = win["cs"] || {};
+	cs.text = cs.text || {};
+	cs.psalm = cs.psalm || {};
 
 
 	// Navigation -------------------------------------------------------------
@@ -53,7 +54,7 @@
 
 		// String
 		if (cs.isString(idElementOrjQuery)) {
-			idElementOrjQuery = $.trim(idElementOrjQuery);
+			idElementOrjQuery = cs.text.trim(idElementOrjQuery);
 
 			// If has a hashe don't add one to query...
 			if (idElementOrjQuery.indexOf(hash) != -1) {
@@ -69,19 +70,6 @@
 		}
 
 		return idElementOrjQuery;
-	}
-
-	function trim(str) {
-		return str.replace(/^\s+|\s+$/gm,'');
-	}
-
-	// KUDOS: http://stackoverflow.com/a/7124052
-	function htmlEncode(input) {
-		return String(str).replace(/&/g, '&amp;')
-						  .replace(/"/g, '&quot;')
-						  .replace(/'/g, '&#39;')
-						  .replace(/</g, '&lt;')
-						  .replace(/>/g, '&gt;');
 	}
 
 	var ViewModel = function() {
@@ -298,7 +286,7 @@
 		this.searchResults = ko.observable([]);
 
 		this.search = function() {
-			var term = trim(this.searchTerm()),
+			var term = cs.text.trim(this.searchTerm()),
 				results;
 
 			if (term && term.length > 0) {
@@ -308,7 +296,7 @@
 		};
 
 		this.selectSearchResult = function(data) {
-			var number = this.number;
+			var number = this.number,
 				part = this.version;
 
 			vm.psalmNumber(number);
@@ -331,23 +319,6 @@
 		};
 	};
 
-	// KUDOS: http://www.quirksmode.org/js/eventSimple.html
-	function addEventSimple(obj,evt,fn) {
-		if (obj.addEventListener) {
-			obj.addEventListener(evt,fn,false);
-		} else if (obj.attachEvent) {
-			obj.attachEvent('on'+evt,fn);
-		}
-	}
-
-	function removeEventSimple(obj,evt,fn) {
-		if (obj.removeEventListener) {
-			obj.removeEventListener(evt,fn,false);
-		} else if (obj.detachEvent) {
-			obj.detachEvent('on'+evt,fn);
-		}
-	}
-
 	function isString(str) {
 		return typeof str == 'string' || str instanceof String;
 	}
@@ -356,31 +327,13 @@
 	// Exports ----------------------------------------------------------------
 	//
 
-	window.cs.ViewModel = ViewModel;
+	cs.ViewModel = ViewModel;
 
-	window.cs.hidePage = hidePage;
-	window.cs.hidePage.speed = 400;
+	cs.hidePage = hidePage;
+	cs.hidePage.speed = 400;
 
-	window.cs.showPage = showPage;
-	window.cs.showPage.speed = 400;
+	cs.showPage = showPage;
+	cs.showPage.speed = 400;
 
-	window.cs.on = addEventSimple;
-	window.cs.off = removeEventSimple;
-
-	window.cs.isString = isString;
-
-	window.cs = window.cs || {};
-	window.cs.psalm = window.cs.psalm || {};
-
-	window.cs.text.trim = trim;
-	window.cs.text.htmlEncode = htmlEncode;
-
-
-	// DEBUG
-	//
-
-	if (window.DEBUG === true) {
-		// Augment functions with logging code
-	}
-
+	cs.isString = isString;
 }(jQuery));
