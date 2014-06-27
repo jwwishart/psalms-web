@@ -209,11 +209,12 @@ div#psalm-select-page {
 }
 
 	.search-panel input {
-		border-radius: 5px;
+		border-radius: 10px;
 		border: 1px solid #ccc;
 		display: block;
 		width: 100%;
-		padding: 5px;
+		padding: 10px;
+		font-size: 1.3em;
 	}
 
 	
