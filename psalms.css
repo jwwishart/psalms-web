@@ -114,7 +114,7 @@ body {
  * Page Styles
 **/
 
-div.page {
+.page {
 	margin: 0;
 
 	/* Hidden by default*/
@@ -160,15 +160,15 @@ div.page {
  * Psalm Selection Page Specific Styles
 **/
 
-div#psalm-select-page {
+#psalm-select-page {
 }
 
-	div#psalm-select-page .page-content {
+	#psalm-select-page .page-content {
 		padding-right: 10px;
 		padding-top: 5px;
 	}
 
-	div#psalm-select-page div.psalm-number-button {
+	#psalm-select-page div.psalm-number-button {
 		width: 64px;
 		margin-left: 10px;
 		float: left;
@@ -176,7 +176,7 @@ div#psalm-select-page {
 		font-family: Helvetica, Arial, sans-serif;
 	}
 
-		div#psalm-select-page div.psalm-number-button a {
+		#psalm-select-page div.psalm-number-button a {
 			margin: 4px 0px;
 			padding: .7em 11px;
 			display: block;
@@ -198,7 +198,7 @@ div#psalm-select-page {
 			border: 1px solid #ccc;
 		}
 
-		div#psalm-select-page div.psalm-number-button a:hover {
+		#psalm-select-page div.psalm-number-button a:hover {
 			background-color: #eee;
 		}
 
@@ -209,19 +209,20 @@ div#psalm-select-page {
 }
 
 	.search-panel input {
-		border-radius: 5px;
+		border-radius: 10px;
 		border: 1px solid #ccc;
 		display: block;
 		width: 100%;
-		padding: 5px;
+		padding: 10px;
+		font-size: 1.3em;
 	}
 
 	
 
-div#psalm-search-results {
+#psalm-search-results {
 }
 
-	div#psalm-search-results .result-item {
+	#psalm-search-results .result-item {
 		margin: 5px;
 		padding: 5px;
 
@@ -231,26 +232,26 @@ div#psalm-search-results {
 		cursor: pointer;
 	}
 
-		div#psalm-search-results .result-item .psalm-result-info {
+		#psalm-search-results .result-item .psalm-result-info {
 			font-weight: bold;
 			font-size: 1.1em;
 		}
 
-		div#psalm-search-results .result-item a {
+		#psalm-search-results .result-item a {
 			text-decoration: none;
 		}
 
-		div#psalm-search-results .search-term-match {
+		#psalm-search-results .search-term-match {
 			color: red;
 			font-weight: bold;
 			font-size: inherit;
 		}
 
 
-div#psalm-content-page {
+#psalm-content-page {
 }
 
-	div#psalm-content-page .page-header {
+	#psalm-content-page .page-header {
 	}
 
 		#psalm-number-header {
@@ -259,15 +260,15 @@ div#psalm-content-page {
 			margin-left: 100px;
 		}
 
-	div#psalm-content-page .page-content {
+	#psalm-content-page .page-content {
 		padding: 15px;
 	}
 
-	div#psalm-content-page .page-header a.button.float-right {
+	#psalm-content-page .page-header a.button.float-right {
 		margin-left: 5px;
 	}
 
-	div#psalm-content-page .page-header .button-selected {
+	#psalm-content-page .page-header .button-selected {
 		color: gold;
 		font-weight: bold;;
 	}
@@ -277,24 +278,22 @@ div#psalm-content-page {
 }
 
 
-div#psalm119-part-selector {
+#psalm119-part-selector {
 
 }
-	ul#psalm119PartList {
+	#psalm119PartList {
 		list-style-type: none;
 		padding: 0;
 	}
 
-	ul#psalm119PartList li {
+	#psalm119PartList li {
 		margin: 3px 1em;
 	}
 
-	ul#psalm119PartList li span {
+	#psalm119PartList li span {
 		display: inline-block;
 		margin: 0;
 		padding: 0;
 		width: 49%;
 		text-align: center;
 	}
-
-

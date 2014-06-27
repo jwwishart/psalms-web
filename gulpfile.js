@@ -15,7 +15,8 @@ gulp.task("compile-concat-typescript", ["clean"], function() {
 	return  gulp.src("scripts/*.ts")
 				// Build TypeScript
 				.pipe(tsc({
-					target: "ES5"
+					target: "ES5",
+					module: "amd"
 				}))
 
 				// Concat

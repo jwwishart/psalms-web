@@ -1,4 +1,4 @@
-module cs {
+export module cs {
 
 	export var DEBUG = false;
 
@@ -28,6 +28,7 @@ module cs {
 
 	// Routing 
 	// 
+
 	export module routing {
 
 	}
