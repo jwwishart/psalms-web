@@ -1,5 +1,6 @@
 
-define(['jquery', 'lodash', 'knockout', 'script'], function($, _, ko, cs) {
+define(['jquery', 'lodash', 'knockout', 'cornerstone', "psalms"], function($, _, ko, cs, psalms) {
+
     // Check if a new cache is available on page load.
     cs.events.attach(window, "load", function(e) {
         cs.events.attach(window.applicationCache, "updateready",function(e) {
@@ -16,12 +17,12 @@ define(['jquery', 'lodash', 'knockout', 'script'], function($, _, ko, cs) {
 
 
     // Knockout Binding!
-    var myViewModel = new cs.ViewModel();
+    var myViewModel = new psalms.ViewModel();
     ko.applyBindings(myViewModel);
 
 
     // Show the first page
-    cs.showPage("psalm-select-page");
+    psalms.showPage("psalm-select-page");
 
     cs.events.attach(window, "resize", function () { myViewModel.resizedOccured(); });
 });

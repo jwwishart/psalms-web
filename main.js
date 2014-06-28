@@ -1,12 +1,10 @@
 requirejs.config({
-    baseUrl: 'dist',
+    baseUrl: '/scripts',
     deps: ['../boot'],
 
     paths: {
         jquery: '/lib/jquery/dist/jquery.min',
-
         lodash: '/lib/lodash/dist/lodash.min',
-
         knockout: '/lib/knockout/dist/knockout'
     }
 });
