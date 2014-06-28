@@ -215,6 +215,13 @@ body {
 		width: 100%;
 		padding: 10px;
 		font-size: 1.3em;
+
+		/* Remove chrome outline and add a box shadow*/
+		outline: none;
+	}
+
+	.search-panel input:focus {
+		box-shadow: 0 0 7px navy;
 	}
 
 	
