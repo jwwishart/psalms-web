@@ -1,5 +1,5 @@
 <!doctype html>
-<html manifest="cache.manifest">
+<!-- <html manifest="cache.manifest"> -->
 <html>
 <head>
 	
@@ -11,6 +11,7 @@
 	<!-- Style -->
 	<link rel="stylesheet" href="psalms.css">
 
+	<script data-main="main.js" src="//cdnjs.cloudflare.com/ajax/libs/require.js/2.1.14/require.min.js"></script>
 </head>
 <body>
 
@@ -151,9 +152,6 @@
 
 
 	<!-- Script -->
-	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js"></script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/knockout/3.1.0/knockout-min.js"></script>
 	<!--<script src="//cdnjs.cloudflare.com/ajax/libs/js-signals/1.0.0/js-signals.min.js"></script>
 		<script src="//cdnjs.cloudflare.com/ajax/libs/crossroads/0.12.0/crossroads.min.js"></script>-->
 
@@ -161,35 +159,7 @@
 		window.DEBUG = true;
 	</script>
 
-	<script src="psalms.js"></script>
-	<script src="psalms.data.js"></script>
-
-	<script>
-		// Check if a new cache is available on page load.
-		cs.on(window, "load", function(e) {
-			cs.on(window.applicationCache, "updateready",function(e) {
-				if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
-					// Browser downloaded a new app cache.
-					if (confirm('A new version of this site is available. Load it?')) {
-						window.location.reload();
-					}
-				} else {
-					// Manifest didn't changed. Nothing new to server.
-				}
-			});
-		});
-
-
-		// Knockout Binding!
-		var myViewModel = new cs.ViewModel();
-		ko.applyBindings(myViewModel);
-
-
-		// Show the first page
-		cs.showPage("psalm-select-page");
-
-		cs.on(window, "resize", function () { myViewModel.resizedOccured(); });
-	</script>
+	<!--<script src="dist/script.min.js"></script>-->
 
 </body>
 </html>
