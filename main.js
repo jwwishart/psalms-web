@@ -1,6 +1,6 @@
 requirejs.config({
     baseUrl: '/dist',
-    deps: ['../boot'],
+    deps: ['/boot'],
 
     paths: {
         jquery: '/lib/jquery/dist/jquery.min',
