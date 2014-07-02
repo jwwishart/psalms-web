@@ -1,5 +1,5 @@
 CACHE MANIFEST 
-# version 3
+# version 6
 
 
 # Page
@@ -19,8 +19,12 @@ CACHE MANIFEST
 #
 
 //cdnjs.cloudflare.com/ajax/libs/require.js/2.1.14/require.min.js
+
+//jwwishart.github.io/psalms-web/main.js
+//jwwishart.github.io/psalms-web/boot.js
+
 //cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js
 //cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js
 //cdnjs.cloudflare.com/ajax/libs/knockout/3.1.0/knockout-min.js
 
-//jwwishart.github.io/psalms-web/dist/script.js
+//jwwishart.github.io/psalms-web/dist/psalms.min.js
