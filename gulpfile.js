@@ -64,7 +64,7 @@
                     .pipe(gulp.dest(paths.dist));
     });
 
-    gulp.task("package", function() {
+    gulp.task("package", ["clean"], function() {
         return  gulp.src(paths.scripts)
                     .pipe(concat(paths.outputFile))
                     .pipe(gulp.dest(paths.dist))
@@ -73,16 +73,7 @@
                     .pipe(gulp.dest(paths.dist));
     });
 
-    gulp.task('scripts', function() {
-    return gulp.src('scripts/*.js')
-        .pipe(concat('all.js'))
-        .pipe(gulp.dest('dist'))
-        .pipe(rename('all.min.js'))
-        .pipe(uglify())
-        .pipe(gulp.dest('dist'));
-});
-
     //gulp.task("build", ["clean", "concat", "compress"], function() { });
-    gulp.task("default", ["build"], function() { });
+    gulp.task("default", ["package"], function() { });
 
 }());
