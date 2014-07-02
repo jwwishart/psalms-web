@@ -25,7 +25,7 @@ CACHE MANIFEST
 
 //jwwishart.github.io/psalms-web/dist/jquery.min.js
 //jwwishart.github.io/psalms-web/dist/lodash.min.js
-//jwwishart.github.io/psalms-web/dist/knockout-min.js
+//jwwishart.github.io/psalms-web/dist/knockout.js
 
 //jwwishart.github.io/psalms-web/dist/psalms.js
 //jwwishart.github.io/psalms-web/dist/psalms.data.js
