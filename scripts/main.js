@@ -1,5 +1,5 @@
 requirejs.config({
-    baseUrl: '/dist',
+    baseUrl: 'dist',
     deps: ['boot'],
 
     paths: {
