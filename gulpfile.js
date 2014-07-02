@@ -2,12 +2,13 @@
 (function() {
     "use strict";
 
-    var gulp    = require("gulp"),
-        concat  = require("gulp-concat"),
-        uglify  = require("gulp-uglify"),
-        clean   = require("gulp-clean"),
-        rename  = require("gulp-rename");
-
+    var gulp       = require("gulp"),
+        concat     = require("gulp-concat"),
+        uglify     = require("gulp-uglify"),
+        clean      = require("gulp-clean"),
+        rename     = require("gulp-rename"),
+        es         = require("event-stream"),
+        gulpIgnore = require("gulp-ignore");
 
     var paths = {
         dist: "dist",
@@ -18,7 +19,9 @@
         scripts: [
             "scripts/cornerstone.js",
             "scripts/psalms.js",
-            "scripts/psalms.data.js"
+            "scripts/psalms.data.js",
+            "scripts/boot.js",
+            "scripts/main.js"
         ]
     };
 
@@ -64,13 +67,26 @@
                     .pipe(gulp.dest(paths.dist));
     });
 
-    gulp.task("package", ["clean"], function() {
+    gulp.task("package", ["clean", "move-vendor"], function() {
         return  gulp.src(paths.scripts)
-                    .pipe(concat(paths.outputFile))
-                    .pipe(gulp.dest(paths.dist))
-                    .pipe(rename(paths.outputMinFile))
-                    .pipe(uglify())
                     .pipe(gulp.dest(paths.dist));
+    });
+
+    gulp.task("move-vendor", ["clean"], function(cb) {
+        es.concat(
+            gulp.src('lib/jquery/dist/jquery.min.js')
+                       .pipe(rename('jquery.min.js'))
+                       .pipe(gulp.dest(paths.dist)),
+
+            gulp.src('lib/lodash/dist/lodash.min.js')
+                       .pipe(rename('lodash.min.js'))
+                       .pipe(gulp.dest(paths.dist)),
+
+            gulp.src('lib/knockout/dist/knockout.js')
+                       .pipe(rename('knockout.js'))
+                       .pipe(gulp.dest(paths.dist))
+
+        ).on('end', cb);
     });
 
     //gulp.task("build", ["clean", "concat", "compress"], function() { });
