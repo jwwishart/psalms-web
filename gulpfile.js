@@ -20,7 +20,8 @@
             "scripts/cornerstone.js",
             "scripts/psalms.js",
             "scripts/psalms.data.js",
-            "scripts/boot.js"
+            "scripts/boot.js",
+            "scripts/main.js"
         ]
     };
 
