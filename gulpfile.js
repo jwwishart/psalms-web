@@ -64,7 +64,7 @@
                     .pipe(gulp.dest(paths.dist));
     });
 
-    gulp.task("package", function() {
+    gulp.task("package", ["clean"], function() {
         return  gulp.src(paths.scripts)
                     .pipe(concat(paths.outputFile))
                     .pipe(gulp.dest(paths.dist))
@@ -74,6 +74,6 @@
     });
 
     //gulp.task("build", ["clean", "concat", "compress"], function() { });
-    gulp.task("default", ["clean", "package"], function() { });
+    gulp.task("default", ["package"], function() { });
 
 }());
