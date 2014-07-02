@@ -1,5 +1,5 @@
 CACHE MANIFEST 
-# version 6
+# version 7
 
 
 # Page
@@ -27,5 +27,5 @@ CACHE MANIFEST
 //jwwishart.github.io/psalms-web/dist/lodash.min.js
 //jwwishart.github.io/psalms-web/dist/knockout-min.js
 
-//jwwishart.github.io/psalms-web/dist/psalms.min.js
+//jwwishart.github.io/psalms-web/dist/psalms.js
 //jwwishart.github.io/psalms-web/dist/psalms.data.js
