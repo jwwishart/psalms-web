@@ -2,18 +2,19 @@
 (function() {
     "use strict";
 
-    var gulp    = require("gulp"),
-        concat  = require("gulp-concat"),
-        uglify  = require("gulp-uglify"),
-        clean   = require("gulp-clean"),
-        rename  = require("gulp-rename");
-
+    var gulp       = require("gulp"),
+        concat     = require("gulp-concat"),
+        uglify     = require("gulp-uglify"),
+        clean      = require("gulp-clean"),
+        rename     = require("gulp-rename"),
+        gulpIgnore = require("gulp-ignore");
 
     var paths = {
         dist: "dist",
 
         outputFile: "psalms.js",
         outputMinFile: "psalms.min.js",
+        //excludedFiles: "./cornerstone.js",
 
         scripts: [
             "scripts/cornerstone.js",
@@ -66,10 +67,11 @@
 
     gulp.task("package", ["clean"], function() {
         return  gulp.src(paths.scripts)
-                    .pipe(concat(paths.outputFile))
-                    .pipe(gulp.dest(paths.dist))
-                    .pipe(rename(paths.outputMinFile))
-                    .pipe(uglify())
+                    //.pipe(gulpIgnore.exclude(paths.excludedFiles))
+                    //.pipe(concat(paths.outputFile))
+                    //.pipe(gulp.dest(paths.dist))
+                    //.pipe(rename(paths.outputMinFile))
+                    //.pipe(uglify())
                     .pipe(gulp.dest(paths.dist));
     });
 
