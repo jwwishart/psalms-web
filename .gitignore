@@ -5,5 +5,4 @@ lib/
 
 
 # Files
-scripts/*.js
 *.log
